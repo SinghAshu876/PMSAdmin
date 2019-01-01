@@ -20,6 +20,7 @@ import com.pms.forms.MonthlyPaidForm;
 import com.pms.forms.NewEntryForm;
 import com.pms.forms.SearchForm;
 import com.pms.forms.UpdateEntryForm;
+import com.pms.table.ArchivedUsersTable;
 import com.pms.table.DisconnectedUsersTable;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
@@ -112,9 +113,9 @@ public class MainMenu  implements ApplicationConstants {
 		backUPData.addActionListener(new BackUpDataButtonHandler());
 		panel.add(backUPData);
 		
-		JButton deletedUsers = new JButton("DELETED USERS");
+		JButton deletedUsers = new JButton("ARCHIVED / DELETED USERS");
 		deletedUsers.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
-		deletedUsers.addActionListener(new DeletedUsersButtonHandler());
+		deletedUsers.addActionListener(new ArchivedUsersButtonHandler());
 		panel.add(deletedUsers);
 		
 		JButton grantAccess = new JButton("GRANT MOBILE ACCESS");
@@ -145,12 +146,12 @@ public class MainMenu  implements ApplicationConstants {
 		}
 	}
 	
-	private class DeletedUsersButtonHandler implements ActionListener {
+	private class ArchivedUsersButtonHandler implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Toolkit.getDefaultToolkit().beep();
-			JOptionPane.showMessageDialog(null, "This feature is still in development phase");
+			new ArchivedUsersTable().init(mainMenuFrame);
 		}
 	}
 	

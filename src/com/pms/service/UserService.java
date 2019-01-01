@@ -55,4 +55,6 @@ public interface UserService {
 	public int updateFees(User user);
 	
 	public List<FeesHistory> getListOfFeesHistory(Integer id);
+	
+	public List<User> getArchivedUsersList();
 }

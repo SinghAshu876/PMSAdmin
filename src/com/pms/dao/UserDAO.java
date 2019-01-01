@@ -85,6 +85,63 @@ public class UserDAO implements DBConstants{
 		}
 		return success;
 	}
+	
+	/**
+	 * archive the user before deleting in user archive table
+	 */
+	
+	public void archiveDeletedUser(Integer id) {
+		LOG.info("archiving the user with id " +id);
+		String sql = READ_USER_BYID_QUERY;
+		LOG.info("readUserById sql :" + sql);
+		Connection connection = JDBCConnection.getConnection();
+
+		User user = new User();
+		try (PreparedStatement pStmnt = connection.prepareStatement(sql)) {
+			pStmnt.setInt(1, id);
+			try (ResultSet rs = pStmnt.executeQuery()) {
+				while (rs.next()) {
+					user.setId(rs.getInt(ID));
+					user.setConnectionCharge(rs.getString(CONNECTIONCHARGE));
+					user.setCustomerName(rs.getString(CUSTOMERNAME));
+					user.setDoc(rs.getDate(DOC));
+					user.setFeesHistory(feesHistoryDAO.getLatestFees(user.getId()));
+					user.setQrNo(rs.getInt(QRNO));
+					user.setSector(rs.getString(SECTOR));
+					user.setStreet(rs.getString(STREET));
+					user.setMobileNumber(rs.getString(MOBNUMBER));
+					user.setSetTopBoxNumber(rs.getString(SETTOPBOX));
+					user.setCafNumber(rs.getString(CASNUMBER));
+					user.setActive(rs.getString(ACTIVE));
+				}
+			}
+		} catch (SQLException e) {
+			LOG.error("Db problem in readUserById", e);
+
+		}
+		
+		String archiveQuerySQL = ARCHIVE_USER_QUERY;
+		LOG.info("archive sql : " + archiveQuerySQL);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setInt(1, user.getId());
+			preparedStatement.setString(2, user.getCustomerName());
+			preparedStatement.setString(3, user.getStreet());
+			preparedStatement.setString(4, user.getSector());
+			preparedStatement.setDate(5, PMSUtility.convertToSqlDate(user.getDoc()));
+			preparedStatement.setString(6, user.getMobileNumber());
+			preparedStatement.setString(7, user.getSetTopBoxNumber());
+			preparedStatement.setString(8, user.getCafNumber());
+			preparedStatement.setInt(9, user.getQrNo());
+			preparedStatement.executeUpdate();
+			LOG.info("SUCCESSFULLY INSERTED DELETED USER DATA INTO ARCHIVE TABLE");
+		} catch (SQLException e) {
+			LOG.error("Db problem in archiving user", e);
+		}
+		
+		
+		
+	
+	}
 
 	/**
 	 * Delete all users and its referred tables
@@ -94,6 +151,8 @@ public class UserDAO implements DBConstants{
 	 */
 	public Integer deleteUser(Integer id) {
 		LOG.info("deleteUser ENTRY");
+		archiveDeletedUser(id);
+		
 		Connection connection = JDBCConnection.getConnection();
 		String sql = DELETE_USER_QUERY;
 		LOG.info("deleteUser sql : " + sql);
@@ -443,6 +502,34 @@ public class UserDAO implements DBConstants{
 		return revenueFromNewConnections;
 	}
 	
-	
+	public List<User> readArchivedUsers() {
+		LOG.info("readArchivedUsers ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		List<User> userArrayList = new ArrayList<User>();
+		String sql = READ_ARCHIVED_USERS_QUERY;
+		LOG.info("readUsers sql : " + sql);
+		try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(sql);) {
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt(ID));
+				user.setCustomerName(rs.getString(CUSTOMERNAME));
+				user.setDoc(rs.getDate(DOC));
+				user.setQrNo(rs.getInt(QRNO));
+				user.setSector(rs.getString(SECTOR));
+				user.setStreet(rs.getString(STREET));
+				user.setMobileNumber(rs.getString(MOBNUMBER));
+				user.setSetTopBoxNumber(rs.getString(SETTOPBOX));
+				user.setCafNumber(rs.getString(CASNUMBER));
+				userArrayList.add(user);
+			}
+
+			LOG.info("No of users Fetched" + userArrayList.size());
+
+		} catch (SQLException e) {
+			LOG.error("Db problem in reading archived Users", e);
+		}
+		LOG.info("readArchivedUsers EXIT");
+		return userArrayList;
+	}
 
 }

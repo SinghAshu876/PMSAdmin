@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 		LOG.info("updateAllUsersFees ENTRY");
 		java.util.Date today = new java.util.Date();
 		List<User> userList = userDAO.readUsers();
-		Map<Integer,Integer> returnIdMap = new HashMap<Integer,Integer>();
+		Map<Integer, Integer> returnIdMap = new HashMap<Integer, Integer>();
 		for (User user : userList) {
 			if (user.getActive().equals(ActiveStatus.Y.name())) {
 				FeesHistory feesHistory = new FeesHistory();
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 		}
 		LOG.info("updateAllUsersFees EXIT");
 		return returnIdMap;
-		
+
 	}
 
 	@Override
@@ -160,10 +160,9 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * if existing value of fees is same which is entered by user , no need to
-	 * update else if when user tried to update the fees and date of
-	 * connection,year = updation month,year then update only fees else update
-	 * existing date to previous month last date and insert a new row from first
-	 * of the current month
+	 * update else if when user tried to update the fees and date of connection,year
+	 * = updation month,year then update only fees else update existing date to
+	 * previous month last date and insert a new row from first of the current month
 	 */
 	@Override
 	public int updateFees(User user) {
@@ -174,15 +173,14 @@ public class UserServiceImpl implements UserService {
 			LOG.info("NO NEED TO UPDATE,EXIT");
 			return 1;
 		} else {
-			/*if (isUpdateFeesDateAndDocSame(feesHistoryFromGUI, user)) {
-				LOG.info("SAME MONTH AS USER ONBOARDED/FEES UPDATE CASE, EXIT");
-				return feesHistoryDAO.updateFees(feesHistoryFromGUI);
-			}
-			else*/ if(isUpdateFeesDateAndExistingFeesDateSame(feesHistoryFromGUI,feesHistoryFromDB)){
+			/*
+			 * if (isUpdateFeesDateAndDocSame(feesHistoryFromGUI, user)) {
+			 * LOG.info("SAME MONTH AS USER ONBOARDED/FEES UPDATE CASE, EXIT"); return
+			 * feesHistoryDAO.updateFees(feesHistoryFromGUI); } else
+			 */ if (isUpdateFeesDateAndExistingFeesDateSame(feesHistoryFromGUI, feesHistoryFromDB)) {
 				LOG.info("TOO MANY TIMES FEES UPDATE CASE IN SAME MONTH, EXIT");
 				return feesHistoryDAO.updateFees(feesHistoryFromGUI);
-			}
-			else {
+			} else {
 				LOG.info("DIFFERENT MONTH FEES UPDATE, ENTRY");
 				java.util.Date toDate = feesHistoryFromGUI.getToDate();
 				feesHistoryFromGUI.setToDate(PMSUtility.getPreviousMonthLastDate(toDate));
@@ -201,7 +199,8 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	private boolean isUpdateFeesDateAndExistingFeesDateSame(FeesHistory feesHistoryFromGUI, FeesHistory feesHistoryFromDB) {
+	private boolean isUpdateFeesDateAndExistingFeesDateSame(FeesHistory feesHistoryFromGUI,
+			FeesHistory feesHistoryFromDB) {
 		LOG.info("isUpdateFeesDateAndExistingFeesDateSame ENTRY");
 		boolean isUpdateFeesDateAndExistingFeesDateSame = false;
 		String toMonthGUI = getMonth(feesHistoryFromGUI.getToDate());
@@ -229,15 +228,20 @@ public class UserServiceImpl implements UserService {
 		LOG.info("isUpdateFeesDateAndDocSame EXIT " + isUpdateFeesDateAndDocSame);
 		return isUpdateFeesDateAndDocSame;
 	}
-	
+
 	@Override
-	public List<FeesHistory> getListOfFeesHistory(Integer id){
+	public List<FeesHistory> getListOfFeesHistory(Integer id) {
 		return feesHistoryDAO.getListOfFeesHistoryIntegerFormat(id);
 	}
-	
+
 	@Override
 	public FeesHistory findFeesDuringYearMonth(Integer id, Integer year, String month) {
 		return feesHistoryDAO.findFeesDuringYearMonth(id, year, month);
+	}
+
+	@Override
+	public List<User> getArchivedUsersList() {
+		return userDAO.readArchivedUsers();
 	}
 
 }
