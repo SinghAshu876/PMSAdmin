@@ -10,9 +10,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.pms.dao.ChannelDetailsDAO;
 import com.pms.dao.DisconnectReconnectDAO;
 import com.pms.dao.FeesHistoryDAO;
 import com.pms.dao.UserDAO;
+import com.pms.entity.ChannelDetails;
 import com.pms.entity.DisconnectReconnectDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO = new UserDAO();
 	private DisconnectReconnectDAO disconnectReconnectDAO = new DisconnectReconnectDAO();
 	private FeesHistoryDAO feesHistoryDAO = new FeesHistoryDAO();
+	private ChannelDetailsDAO channelDetailsDAO = new ChannelDetailsDAO();
 
 	@Override
 	public int save(User user) {
@@ -242,6 +245,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getArchivedUsersList() {
 		return userDAO.readArchivedUsers();
+	}
+
+	@Override
+	public List<ChannelDetails> getChannelDetails() {		
+		return channelDetailsDAO.getAllChannelDetails();
 	}
 
 }

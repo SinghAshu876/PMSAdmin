@@ -21,6 +21,7 @@ import com.pms.forms.NewEntryForm;
 import com.pms.forms.SearchForm;
 import com.pms.forms.UpdateEntryForm;
 import com.pms.table.ArchivedUsersTable;
+import com.pms.table.ConfigureChannelsTable;
 import com.pms.table.DisconnectedUsersTable;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
@@ -118,10 +119,10 @@ public class MainMenu  implements ApplicationConstants {
 		deletedUsers.addActionListener(new ArchivedUsersButtonHandler());
 		panel.add(deletedUsers);
 		
-		JButton grantAccess = new JButton("GRANT MOBILE ACCESS");
-		grantAccess.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
-		grantAccess.addActionListener(new GrantMobileAccessButtonHandler());
-		panel.add(grantAccess);
+		JButton configureChannels = new JButton("CONFIGURE CHANNELS");
+		configureChannels.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		configureChannels.addActionListener(new ConfigureChannelsButtonHandler());
+		panel.add(configureChannels);
 		
 		LOG.info("placeComponents EXIT");
 
@@ -155,12 +156,13 @@ public class MainMenu  implements ApplicationConstants {
 		}
 	}
 	
-	private class GrantMobileAccessButtonHandler implements ActionListener {
+	private class ConfigureChannelsButtonHandler implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Toolkit.getDefaultToolkit().beep();
-			JOptionPane.showMessageDialog(null, "This feature is still in development phase");
+			new ConfigureChannelsTable().init(mainMenuFrame);
+			
 		}
 	}
 

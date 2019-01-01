@@ -8,7 +8,15 @@ public class ChannelDetails {
 
 	private Integer channelId;
 	private String channelName;
-	private Integer channelFees;
+	private Integer channelPrice;
+
+	public Integer getChannelPrice() {
+		return channelPrice;
+	}
+
+	public void setChannelPrice(Integer channelPrice) {
+		this.channelPrice = channelPrice;
+	}
 
 	public Integer getChannelId() {
 		return channelId;
@@ -26,12 +34,6 @@ public class ChannelDetails {
 		this.channelName = channelName;
 	}
 
-	public Integer getChannelFees() {
-		return channelFees;
-	}
-
-	public void setChannelFees(Integer channelFees) {
-		this.channelFees = channelFees;
-	}
+	
 
 }

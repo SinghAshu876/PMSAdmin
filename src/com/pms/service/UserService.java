@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.pms.entity.ChannelDetails;
 import com.pms.entity.DisconnectReconnectDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
@@ -57,4 +58,6 @@ public interface UserService {
 	public List<FeesHistory> getListOfFeesHistory(Integer id);
 	
 	public List<User> getArchivedUsersList();
+	
+	public List<ChannelDetails> getChannelDetails();
 }
