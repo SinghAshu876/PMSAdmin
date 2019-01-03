@@ -60,4 +60,8 @@ public interface UserService {
 	public List<User> getArchivedUsersList();
 	
 	public List<ChannelDetails> getChannelDetails();
+	
+	public int updateChannelDetails(ChannelDetails channelDetails);
+	
+	public int deleteChannelDetails(int channelId);
 }

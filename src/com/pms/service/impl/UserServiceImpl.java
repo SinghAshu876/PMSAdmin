@@ -252,4 +252,15 @@ public class UserServiceImpl implements UserService {
 		return channelDetailsDAO.getAllChannelDetails();
 	}
 
+	@Override
+	public int updateChannelDetails(ChannelDetails channelDetails) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteChannelDetails(int channelId) {
+		return channelDetailsDAO.deleteChannelDetails(channelId);
+	}
+
 }

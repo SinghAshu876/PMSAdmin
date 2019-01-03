@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,7 @@ import com.pms.util.Container;
  * @author ashutosh.tct@gmail.com
  *
  */
-public class ConfigureChannelsTable implements ApplicationConstants{
+public class ConfigureChannelsTable implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
@@ -45,7 +47,8 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
-		ChannelDetailsTableModel model = findAllChannels();
+		List<ChannelDetails> channelDetailsList = findAllChannels();
+		ChannelDetailsTableModel model = new ChannelDetailsTableModel(channelDetailsList);
 		prepareTable("CONFIGURE CHANNEL", model);
 	}
 
@@ -54,7 +57,7 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 		Font font = new Font("", 1, 22);
 		table.setFont(font);
 		table.setRowHeight(30);
-			
+		table.addMouseListener(new OnClickMouseListener());
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		JScrollPane jScrollPane = new JScrollPane(table);
@@ -70,15 +73,14 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 		JLabel channelIdLabel = new JLabel("CHANNEL ID :");
 		channelIdLabel.setBounds(10, 400, 100, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelIdLabel);
-		
+
 		JLabel channelNameLabel = new JLabel("CHANNEL NAME :");
 		channelNameLabel.setBounds(10, 440, 100, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelNameLabel);
-		
+
 		JLabel channelPriceLabel = new JLabel("CHANNEL PRICE :");
 		channelPriceLabel.setBounds(10, 480, 100, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelPriceLabel);
-
 
 		channelIdText = new PMSJTextField(20);
 		channelIdText.setBounds(120, 400, componentWidth, COMPONENT_HEIGHT);
@@ -86,11 +88,11 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 		channelIdText.setEnabled(false);
 		channelIdText.setEditable(false);
 		configureChannelsFrame.add(channelIdText);
-		
+
 		channelName = new PMSJTextField();
 		channelName.setBounds(120, 440, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelName);
-		
+
 		channelPrice = new PMSJTextField();
 		channelPrice.setBounds(120, 480, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelPrice);
@@ -107,7 +109,7 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 
 		JButton deleteButton = new JButton("DELETE CHANNEL");
 		deleteButton.setBounds(400, 480, componentWidth, COMPONENT_HEIGHT);
-		configureChannelsFrame.add(updateButton);
+		configureChannelsFrame.add(deleteButton);
 		deleteButton.addActionListener(new DeleteButtonHandler());
 
 		JButton backButton = new JButton("BACK");
@@ -142,19 +144,71 @@ public class ConfigureChannelsTable implements ApplicationConstants{
 
 	}
 
-	private class DeleteButtonHandler implements ActionListener {
+	private class OnClickMouseListener implements MouseListener {
+
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void mouseClicked(MouseEvent e) {
+
+			int i = table.getSelectedRow();
+
+			channelIdText.setText(table.getValueAt(i, 0).toString());
+			channelName.setText(table.getValueAt(i, 1).toString());
+			channelPrice.setText(table.getValueAt(i, 2).toString());
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
 
 		}
 
 	}
 
-	private ChannelDetailsTableModel findAllChannels() {
+	private class DeleteButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int channelId = Integer.valueOf(channelIdText.getText());
+			int response = deleteChannel(channelId);
+			LOG.info("response " + response);
+			List<ChannelDetails> updateChannelDetails = findAllChannels();
+			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
+			table.setModel(model);
+		}
+
+	}
+
+	private List<ChannelDetails> findAllChannels() {
 		LOG.info("find all channels");
 		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>(0);
 		channelDetailsList = userServiceImpl.getChannelDetails();
-		ChannelDetailsTableModel model = new ChannelDetailsTableModel(channelDetailsList);
-		return model;
+
+		return channelDetailsList;
+	}
+
+	private void addChannel() {
+
+	}
+
+	private void updateChannel(ChannelDetails channelDetails) {
+
+	}
+
+	private int deleteChannel(int channelId) {
+		return userServiceImpl.deleteChannelDetails(channelId);
 	}
 }

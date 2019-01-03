@@ -1,6 +1,7 @@
 package com.pms.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,5 +45,24 @@ public class ChannelDetailsDAO implements DBConstants {
 		}
 		LOG.info("getAllChannelDetails EXIT");
 		return channelDetailsList;
+	}
+
+	public int deleteChannelDetails(int channelId) {
+		LOG.info("deleteChannelDetails ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		String sql = DELETE_CHANNEL_DETAILS_QUERY;
+		LOG.info("deleteChannelDetails sql : " + sql);
+		int success = 0;
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setInt(1, channelId);
+			success = preparedStatement.executeUpdate();
+			LOG.info("successfully deleted ChannelDetails from table");
+		} catch (SQLException e) {
+			LOG.error("problem cleaning up the ChannelDetails table", e);
+
+		}
+		LOG.info("deleteChannelDetails EXIT");
+		return success;
+
 	}
 }
