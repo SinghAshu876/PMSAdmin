@@ -14,7 +14,7 @@ import com.pms.util.DBConstants;
 
 /**
  * 
- * @author DELL
+ * @author ashutosh.tct@gmail.com
  *
  */
 public class ChannelDetailsDAO implements DBConstants {

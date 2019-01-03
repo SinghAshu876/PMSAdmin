@@ -1,7 +1,7 @@
 package com.pms.entity;
 /**
  * 
- * @author DELL
+ * @author ashutosh.tct@gmail.com
  *
  */
 public class ChannelDetails {
