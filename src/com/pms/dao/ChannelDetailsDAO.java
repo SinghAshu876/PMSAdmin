@@ -65,4 +65,45 @@ public class ChannelDetailsDAO implements DBConstants {
 		return success;
 
 	}
+
+	public int updateChannelDetails(ChannelDetails channelDetails) {
+		LOG.info("updateChannelDetails ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		int success = 0;
+		String sql = UPDATE_CHANNEL_DETAILS_QUERY;
+		LOG.info("update sql : " + sql);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setString(1, channelDetails.getChannelName());
+			preparedStatement.setInt(2, channelDetails.getChannelPrice());
+			preparedStatement.setInt(3, channelDetails.getChannelId());
+			success = preparedStatement.executeUpdate();
+			LOG.info("SUCCESSFULLY UPDATED CHANNEL DETAILS INTO TABLE");
+
+		} catch (SQLException e) {
+			LOG.error("Db problem", e);
+		}
+		LOG.info("updateChannelDetails EXIT");
+		return success;
+	
+	}
+
+	public int addChannelDetails(ChannelDetails channelDetails) {
+		LOG.info("addChannelDetails ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		int success = 0;
+		String sql = INSERT_CHANNEL_DETAILS_QUERY;
+		LOG.info("addChannelDetails sql : " + sql);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setInt(1, channelDetails.getChannelId());
+			preparedStatement.setString(2, channelDetails.getChannelName());
+			preparedStatement.setInt(3, channelDetails.getChannelPrice());
+			success = preparedStatement.executeUpdate();
+			LOG.info("SUCCESSFULLY INSERTED CHANNEL DETAILS INTO TABLE");
+		} catch (SQLException e) {
+			LOG.error("Db problem in saving Channel Details", e);
+		}
+		LOG.info("addChannelDetails EXIT");
+		return success;
+
+	}
 }
