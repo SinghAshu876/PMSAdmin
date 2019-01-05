@@ -42,8 +42,8 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private int componentWidth = 210;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 	private JTextField channelIdText = new PMSJTextField();
-	private JTextField channelName = new PMSJTextField();
-	private JTextField channelPrice = new PMSJTextField();
+	private JTextField channelNameText = new PMSJTextField();
+	private JTextField channelPriceText = new PMSJTextField();
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
@@ -89,13 +89,13 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		channelIdText.setEditable(false);
 		configureChannelsFrame.add(channelIdText);
 
-		channelName = new PMSJTextField();
-		channelName.setBounds(120, 440, componentWidth, COMPONENT_HEIGHT);
-		configureChannelsFrame.add(channelName);
+		channelNameText = new PMSJTextField();
+		channelNameText.setBounds(120, 440, componentWidth, COMPONENT_HEIGHT);
+		configureChannelsFrame.add(channelNameText);
 
-		channelPrice = new PMSJTextField();
-		channelPrice.setBounds(120, 480, componentWidth, COMPONENT_HEIGHT);
-		configureChannelsFrame.add(channelPrice);
+		channelPriceText = new PMSJTextField();
+		channelPriceText.setBounds(120, 480, componentWidth, COMPONENT_HEIGHT);
+		configureChannelsFrame.add(channelPriceText);
 
 		JButton addButton = new JButton("ADD CHANNEL");
 		addButton.setBounds(400, 400, componentWidth, COMPONENT_HEIGHT);
@@ -119,41 +119,16 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		Container.frameContainer.put("ARCHIVED-USERS-FRAME", configureChannelsFrame);
 	}
 
-	private class BackButtonHandler implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			((JFrame) Container.frameContainer.get("MAIN-MENU-FRAME")).setVisible(true);
-			configureChannelsFrame.setVisible(false);
-		}
 
-	}
-
-	private class AddButtonHandler implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-		}
-
-	}
-
-	private class UpdateButtonHandler implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-		}
-
-	}
 
 	private class OnClickMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
 			int i = table.getSelectedRow();
-
 			channelIdText.setText(table.getValueAt(i, 0).toString());
-			channelName.setText(table.getValueAt(i, 1).toString());
-			channelPrice.setText(table.getValueAt(i, 2).toString());
+			channelNameText.setText(table.getValueAt(i, 1).toString());
+			channelPriceText.setText(table.getValueAt(i, 2).toString());
 
 		}
 
@@ -175,6 +150,59 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		@Override
 		public void mouseExited(MouseEvent e) {
 
+		}
+
+	}
+	
+	private class BackButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			((JFrame) Container.frameContainer.get("MAIN-MENU-FRAME")).setVisible(true);
+			configureChannelsFrame.setVisible(false);
+		}
+
+	}
+
+	private class AddButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int channelId = Integer.valueOf(channelIdText.getText());
+			String chnlName = channelNameText.getText();
+			int chnlPrice  =  Integer.valueOf(channelPriceText.getText());
+			
+			ChannelDetails channelDetails = new ChannelDetails();
+			channelDetails.setChannelId(channelId);
+			channelDetails.setChannelName(chnlName);
+			channelDetails.setChannelPrice(chnlPrice);
+			
+			int response = addChannel(channelDetails);
+			LOG.info("response " + response);
+			List<ChannelDetails> updateChannelDetails = findAllChannels();
+			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
+			table.setModel(model);
+			
+		}
+
+	}
+
+	private class UpdateButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			int channelId = Integer.valueOf(channelIdText.getText());
+			String chnlName = channelNameText.getText();
+			int chnlPrice  =  Integer.valueOf(channelPriceText.getText());
+			
+			ChannelDetails channelDetails = new ChannelDetails();
+			channelDetails.setChannelId(channelId);
+			channelDetails.setChannelName(chnlName);
+			channelDetails.setChannelPrice(chnlPrice);
+			int response = updateChannel(channelDetails);
+			LOG.info("response " + response);
+			List<ChannelDetails> updateChannelDetails = findAllChannels();
+			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
+			table.setModel(model);
+			
 		}
 
 	}
@@ -200,12 +228,12 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		return channelDetailsList;
 	}
 
-	private void addChannel() {
-
+	private int addChannel(ChannelDetails channelDetails) {
+		return userServiceImpl.addChannelDetails(channelDetails);
 	}
 
-	private void updateChannel(ChannelDetails channelDetails) {
-
+	private int updateChannel(ChannelDetails channelDetails) {
+		return userServiceImpl.updateChannelDetails(channelDetails);
 	}
 
 	private int deleteChannel(int channelId) {

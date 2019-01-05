@@ -64,4 +64,6 @@ public interface UserService {
 	public int updateChannelDetails(ChannelDetails channelDetails);
 	
 	public int deleteChannelDetails(int channelId);
+	
+	public int addChannelDetails(ChannelDetails channelDetails);
 }
