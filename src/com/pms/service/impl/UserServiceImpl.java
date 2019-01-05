@@ -267,4 +267,9 @@ public class UserServiceImpl implements UserService {
 		return channelDetailsDAO.addChannelDetails(channelDetails);
 	}
 
+	@Override
+	public int getNextChannelId() {
+		return channelDetailsDAO.getChannelId();
+	}
+
 }

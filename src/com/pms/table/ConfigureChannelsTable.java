@@ -14,14 +14,17 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.text.AbstractDocument;
 
 import org.apache.log4j.Logger;
 
 import com.pms.custom.components.PMSJTextField;
+import com.pms.document.filters.NumberTextFieldDocumentFilter;
 import com.pms.entity.ChannelDetails;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.table.model.ChannelDetailsTableModel;
@@ -44,6 +47,9 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private JTextField channelIdText = new PMSJTextField();
 	private JTextField channelNameText = new PMSJTextField();
 	private JTextField channelPriceText = new PMSJTextField();
+	private JButton addButton = null;
+	private JButton updateButton = null;
+	private JButton deleteButton = null;
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
@@ -95,22 +101,26 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 
 		channelPriceText = new PMSJTextField();
 		channelPriceText.setBounds(120, 480, componentWidth, COMPONENT_HEIGHT);
+		((AbstractDocument) channelPriceText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		configureChannelsFrame.add(channelPriceText);
 
-		JButton addButton = new JButton("ADD CHANNEL");
+		addButton = new JButton("ADD CHANNEL");
 		addButton.setBounds(400, 400, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(addButton);
 		addButton.addActionListener(new AddButtonHandler());
+		addButton.setEnabled(true);
 
-		JButton updateButton = new JButton("UPDATE CHANNEL");
+		updateButton = new JButton("UPDATE CHANNEL");
 		updateButton.setBounds(400, 440, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(updateButton);
 		updateButton.addActionListener(new UpdateButtonHandler());
+		updateButton.setEnabled(false);
 
-		JButton deleteButton = new JButton("DELETE CHANNEL");
+        deleteButton = new JButton("DELETE CHANNEL");
 		deleteButton.setBounds(400, 480, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(deleteButton);
 		deleteButton.addActionListener(new DeleteButtonHandler());
+		deleteButton.setEnabled(false);
 
 		JButton backButton = new JButton("BACK");
 		backButton.setBounds(400, 520, componentWidth, COMPONENT_HEIGHT);
@@ -118,8 +128,6 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		backButton.addActionListener(new BackButtonHandler());
 		Container.frameContainer.put("ARCHIVED-USERS-FRAME", configureChannelsFrame);
 	}
-
-
 
 	private class OnClickMouseListener implements MouseListener {
 
@@ -129,6 +137,9 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			channelIdText.setText(table.getValueAt(i, 0).toString());
 			channelNameText.setText(table.getValueAt(i, 1).toString());
 			channelPriceText.setText(table.getValueAt(i, 2).toString());
+			addButton.setEnabled(false);
+			updateButton.setEnabled(true);
+			deleteButton.setEnabled(true);
 
 		}
 
@@ -153,7 +164,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		}
 
 	}
-	
+
 	private class BackButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -166,21 +177,37 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private class AddButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int channelId = Integer.valueOf(channelIdText.getText());
-			String chnlName = channelNameText.getText();
-			int chnlPrice  =  Integer.valueOf(channelPriceText.getText());
+
+			int channelId = userServiceImpl.getNextChannelId();
 			
+			if (channelNameText.getText() == null || channelNameText.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "CHANNEL NAME CANNOT BE BLANK");
+				return;
+
+			}
+			if (channelPriceText.getText() == null || channelPriceText.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "CHANNEL PRICE CANNOT BE BLANK");
+				return;
+
+			}
+
+			String chnlName = channelNameText.getText();
+			int chnlPrice = Integer.valueOf(channelPriceText.getText());
+
 			ChannelDetails channelDetails = new ChannelDetails();
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
-			
+
 			int response = addChannel(channelDetails);
 			LOG.info("response " + response);
-			List<ChannelDetails> updateChannelDetails = findAllChannels();
-			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
-			table.setModel(model);
-			
+
+			if (response == -1) {
+				JOptionPane.showMessageDialog(null, "PROBLEM OCCURED WHILE SAVING CHANNEL ! CONTACT DEVELOPER");
+				return;
+			} else {
+				refreshTable();				
+			}
 		}
 
 	}
@@ -188,21 +215,35 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private class UpdateButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
+			if (channelNameText.getText() == null || channelNameText.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "CHANNEL NAME CANNOT BE BLANK");
+				return;
+
+			}
+			if (channelPriceText.getText() == null || channelPriceText.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "CHANNEL PRICE CANNOT BE BLANK");
+				return;
+
+			}
+
 			int channelId = Integer.valueOf(channelIdText.getText());
 			String chnlName = channelNameText.getText();
-			int chnlPrice  =  Integer.valueOf(channelPriceText.getText());
-			
+			int chnlPrice = Integer.valueOf(channelPriceText.getText());
+
 			ChannelDetails channelDetails = new ChannelDetails();
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
 			int response = updateChannel(channelDetails);
 			LOG.info("response " + response);
-			List<ChannelDetails> updateChannelDetails = findAllChannels();
-			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
-			table.setModel(model);
-			
+			if (response == -1) {
+				JOptionPane.showMessageDialog(null, "PROBLEM OCCURED WHILE UPDATING CHANNEL ! CONTACT DEVELOPER");
+				return;
+			} else {
+				refreshTable();
+			}
+
 		}
 
 	}
@@ -210,12 +251,21 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private class DeleteButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if (channelIdText.getText() == null || channelIdText.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "CHANNEL ID CANNOT BE BLANK");
+				return;
+			}
+
 			int channelId = Integer.valueOf(channelIdText.getText());
 			int response = deleteChannel(channelId);
 			LOG.info("response " + response);
-			List<ChannelDetails> updateChannelDetails = findAllChannels();
-			ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
-			table.setModel(model);
+			if (response == -1) {
+				JOptionPane.showMessageDialog(null, "PROBLEM OCCURED WHILE DELETING CHANNEL ! CONTACT DEVELOPER");
+				return;
+			} else {
+				refreshTable();
+			}
+
 		}
 
 	}
@@ -226,6 +276,19 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		channelDetailsList = userServiceImpl.getChannelDetails();
 
 		return channelDetailsList;
+	}
+
+	private void refreshTable() {
+		List<ChannelDetails> updateChannelDetails = findAllChannels();
+		ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
+		table.setModel(model);
+		channelNameText.setText(ApplicationConstants.EMPTY_STRING);
+		channelPriceText.setText(ApplicationConstants.EMPTY_STRING);
+		channelIdText.setText(ApplicationConstants.EMPTY_STRING);
+		addButton.setEnabled(true);
+		updateButton.setEnabled(false);
+		deleteButton.setEnabled(false);
+
 	}
 
 	private int addChannel(ChannelDetails channelDetails) {
@@ -239,4 +302,5 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private int deleteChannel(int channelId) {
 		return userServiceImpl.deleteChannelDetails(channelId);
 	}
+
 }

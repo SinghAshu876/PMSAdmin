@@ -52,7 +52,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		Connection connection = JDBCConnection.getConnection();
 		String sql = DELETE_CHANNEL_DETAILS_QUERY;
 		LOG.info("deleteChannelDetails sql : " + sql);
-		int success = 0;
+		int success = -1;
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			preparedStatement.setInt(1, channelId);
 			success = preparedStatement.executeUpdate();
@@ -69,7 +69,7 @@ public class ChannelDetailsDAO implements DBConstants {
 	public int updateChannelDetails(ChannelDetails channelDetails) {
 		LOG.info("updateChannelDetails ENTRY");
 		Connection connection = JDBCConnection.getConnection();
-		int success = 0;
+		int success = -1;
 		String sql = UPDATE_CHANNEL_DETAILS_QUERY;
 		LOG.info("update sql : " + sql);
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
@@ -90,7 +90,7 @@ public class ChannelDetailsDAO implements DBConstants {
 	public int addChannelDetails(ChannelDetails channelDetails) {
 		LOG.info("addChannelDetails ENTRY");
 		Connection connection = JDBCConnection.getConnection();
-		int success = 0;
+		int success = -1;
 		String sql = INSERT_CHANNEL_DETAILS_QUERY;
 		LOG.info("addChannelDetails sql : " + sql);
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
@@ -104,6 +104,25 @@ public class ChannelDetailsDAO implements DBConstants {
 		}
 		LOG.info("addChannelDetails EXIT");
 		return success;
+
+	}
+	
+	
+	public Integer getChannelId() {
+		LOG.info("getChannelId ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		Integer result = -1;
+		String sql = NEXT_CHANNEL_ID_QUERY;
+		LOG.info("getChannelId sql :" + sql);
+		try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(sql);) {
+			while (rs.next()) {
+				result = rs.getInt("@p0");
+			}
+		} catch (SQLException e) {
+			LOG.error("Db problem in getChannelId", e);
+		}
+		LOG.info("getChannelId EXIT");
+		return result;
 
 	}
 }
