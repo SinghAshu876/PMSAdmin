@@ -294,6 +294,11 @@ public class UpdateEntryForm implements ApplicationConstants {
 		feeCodeText.setText(feeCode);
 		temp = feeCode;
 		panel.add(feeCodeText);
+		
+		JButton configureFeeButton = new JButton("CONFIGURE FEE");
+		configureFeeButton.setBounds(400, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);
+		configureFeeButton.addActionListener(new ConfigureFeeButtonHandler());
+		panel.add(configureFeeButton);
 
 		JLabel mobileNumber = new JLabel("MOBILE NUMBER:");
 		mobileNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
@@ -478,6 +483,14 @@ public class UpdateEntryForm implements ApplicationConstants {
 	 * 
 	 * }
 	 */
+	
+	private class ConfigureFeeButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+
+	}
 
 	private class DisconnectButtonHandler implements ActionListener {
 		@Override

@@ -1,5 +1,6 @@
 package com.pms.forms;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -27,11 +28,13 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXDatePicker;
 
 import com.pms.custom.components.ColoredJPanel;
+import com.pms.custom.components.DualListBoxFrame;
 import com.pms.custom.components.PMSJTextField;
 import com.pms.custom.components.PMSJXDatePicker;
 import com.pms.document.filters.NumberTextFieldDocumentFilter;
 import com.pms.document.filters.UpperCaseWithLimitDocumentFilter;
 import com.pms.document.filters.UppercaseDocumentFilter;
+import com.pms.entity.ChannelDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
 import com.pms.enums.util.StaticCodes;
@@ -243,7 +246,12 @@ public class NewEntryForm  implements ApplicationConstants {
 		feeCodeText.setBounds(380, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
 		JTextFieldList.add(feeCodeText);
 		panel.add(feeCodeText);
-
+		
+		JButton configureFeeButton = new JButton("CONFIGURE FEE");
+		configureFeeButton.setBounds(450, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);
+		configureFeeButton.addActionListener(new ConfigureFeeButtonHandler());
+		panel.add(configureFeeButton);
+		
 		JLabel mobileNumber = new JLabel("MOBILE NUMBER:");
 		mobileNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
 		panel.add(mobileNumber);
@@ -307,6 +315,21 @@ public class NewEntryForm  implements ApplicationConstants {
 			for (final JTextField tf : JTextFieldList) {
 				tf.setText(EMPTY_STRING);
 			}
+		}
+
+	}
+	
+	private class ConfigureFeeButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFrame frame = new JFrame("CONFIGURE FEE");
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		    DualListBoxFrame dual = new DualListBoxFrame();
+		    List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
+		    dual.addSourceElements(channelDetailsList);
+		    frame.add(dual, BorderLayout.CENTER);
+		    frame.setSize(400, 300);
+		    frame.setVisible(true);
 		}
 
 	}
