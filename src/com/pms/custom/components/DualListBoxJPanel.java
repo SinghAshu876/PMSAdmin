@@ -77,8 +77,20 @@ public class DualListBoxJPanel extends JPanel {
 
 	private int sumOfChannelsSelected = 0;
 
-	public DualListBoxJPanel() {
+	private JFrame parentFrame;
+	
+	private JFrame configureFeeFrame ;
+	
+
+	public JFrame getParentFrame() {
+		return parentFrame;
+	}
+
+	public DualListBoxJPanel(JFrame parentFrame, List<ChannelDetails> channelDetailsList) {
+		this.parentFrame= parentFrame;
 		initScreen();
+	    addSourceElements(channelDetailsList);
+		
 	}
 
 	public String getSourceChoicesTitle() {
@@ -123,6 +135,10 @@ public class DualListBoxJPanel extends JPanel {
 		for (int i = 0; i < size; i++) {
 			model.add(newValues.getElementAt(i));
 		}
+	}
+
+	public void setParentFrame(JFrame parentFrame) {
+		this.parentFrame = parentFrame;
 	}
 
 	public void addSourceElements(List<ChannelDetails> newValues) {
@@ -214,6 +230,17 @@ public class DualListBoxJPanel extends JPanel {
 	}
 
 	private void initScreen() {
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		configureFeeFrame = new JFrame("CONFIGURE-FEE-FRAME");
+	    configureFeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    configureFeeFrame.setResizable(false);
+	    configureFeeFrame.setVisible(true);
+		configureFeeFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		configureFeeFrame.setSize(screenSize);
+	    configureFeeFrame.add(this, BorderLayout.CENTER);
+		getParentFrame().setVisible(false);
+		
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new GridBagLayout());
 		setBackground(Color.CYAN);
@@ -244,8 +271,8 @@ public class DualListBoxJPanel extends JPanel {
 		add(new JScrollPane(destList), new GridBagConstraints(2, 1, 1, 3, .5, 1, GridBagConstraints.CENTER,
 				GridBagConstraints.BOTH, EMPTY_INSETS, 0, 0));
 		totalFeesLabel = new JLabel(TOTAL_FEES_LABEL);
-		add(totalFeesLabel, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				EMPTY_INSETS, 0, 0));
+		add(totalFeesLabel, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.WEST,
+				GridBagConstraints.NONE, EMPTY_INSETS, 0, 0));
 		feeText = new PMSJTextField(15);
 		feeText.setEditable(false);
 		feeText.setText(String.valueOf(sumOfChannelsSelected));
@@ -256,12 +283,11 @@ public class DualListBoxJPanel extends JPanel {
 		add(confirmButton, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.EAST, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
 		confirmButton.addActionListener(new ConfirmButtonListener());
-		
+
 		backButton = new JButton(BACK_BUTTON_LABEL);
 		add(backButton, new GridBagConstraints(2, 5, 1, 2, 0.25, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
 		backButton.addActionListener(new BackButtonListener());
-
 
 	}
 
@@ -273,7 +299,8 @@ public class DualListBoxJPanel extends JPanel {
 
 	private class BackButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
+            configureFeeFrame.setVisible(false); 
+			getParentFrame().setVisible(true);             
 		}
 	}
 
@@ -304,12 +331,7 @@ public class DualListBoxJPanel extends JPanel {
 	}
 
 	public static void main(String args[]) {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		JFrame frame = new JFrame("Dual List Box Tester");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new JScrollBar());
-		DualListBoxJPanel dual = new DualListBoxJPanel();
+		
 		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
 		ChannelDetails channelDetails1 = new ChannelDetails();
 		channelDetails1.setChannelId(1);
@@ -321,7 +343,15 @@ public class DualListBoxJPanel extends JPanel {
 		channelDetails2.setChannelName("Test Channel 2");
 		channelDetails2.setChannelPrice(10);
 		channelDetailsList.add(channelDetails2);
-		dual.addSourceElements(channelDetailsList);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		
+		JFrame frame = new JFrame("Dual List Box Tester");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(new JScrollBar());
+		DualListBoxJPanel dual = new DualListBoxJPanel(frame,channelDetailsList);
+
 		frame.add(dual, BorderLayout.CENTER);
 		frame.setVisible(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

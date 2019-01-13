@@ -1,6 +1,5 @@
 package com.pms.forms;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -49,10 +48,10 @@ import com.pms.validator.UserValidator;
  * @author ashutosh.tct@gmail.com
  * 
  */
-public class NewEntryForm  implements ApplicationConstants {
+public class NewEntryForm implements ApplicationConstants {
 
-	private  Logger LOG = Logger.getLogger(getClass());
-	
+	private Logger LOG = Logger.getLogger(getClass());
+
 	private JFrame newEntryForm = null;
 	private JTextField slNOText = null;
 	private JTextField customerNameText = null;
@@ -91,7 +90,7 @@ public class NewEntryForm  implements ApplicationConstants {
 		JPanel panel = new ColoredJPanel();
 		newEntryForm.add(panel);
 		placeComponents(panel);
-		//newEntryForm.getRootPane().setDefaultButton(saveButton);
+		// newEntryForm.getRootPane().setDefaultButton(saveButton);
 		Container.frameContainer.put("NEW-ENTRY-FRAME", newEntryForm);
 		LOG.info("init EXIT");
 
@@ -126,7 +125,8 @@ public class NewEntryForm  implements ApplicationConstants {
 		panel.add(customerName);
 
 		customerNameText = new PMSJTextField(20);
-		customerNameText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		customerNameText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		JTextFieldList.add(customerNameText);
 		((AbstractDocument) customerNameText.getDocument()).setDocumentFilter(new UpperCaseWithLimitDocumentFilter(20));
 		panel.add(customerNameText);
@@ -156,7 +156,8 @@ public class NewEntryForm  implements ApplicationConstants {
 		panel.add(sector);
 
 		sectorText = new PMSJTextField(20);
-		sectorText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth / 5, COMPONENT_HEIGHT);
+		sectorText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth / 5,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) sectorText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(1));
 		JTextFieldList.add(sectorText);
 		panel.add(sectorText);
@@ -178,11 +179,13 @@ public class NewEntryForm  implements ApplicationConstants {
 		panel.add(picker);
 
 		JLabel connectionCharge = new JLabel("CONNECTION CHARGE:");
-		connectionCharge.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		connectionCharge.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth,
+				COMPONENT_HEIGHT);
 		panel.add(connectionCharge);
 
 		connectionChargeText = new PMSJTextField(20);
-		connectionChargeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		connectionChargeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) connectionChargeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		JTextFieldList.add(connectionChargeText);
 		panel.add(connectionChargeText);
@@ -192,7 +195,8 @@ public class NewEntryForm  implements ApplicationConstants {
 		panel.add(backDues);
 
 		backDuesText = new PMSJTextField(20);
-		backDuesText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		backDuesText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) backDuesText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		JTextFieldList.add(backDuesText);
 		panel.add(backDuesText);
@@ -246,28 +250,31 @@ public class NewEntryForm  implements ApplicationConstants {
 		feeCodeText.setBounds(380, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
 		JTextFieldList.add(feeCodeText);
 		panel.add(feeCodeText);
-		
+
 		JButton configureFeeButton = new JButton("CONFIGURE FEE");
 		configureFeeButton.setBounds(450, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);
 		configureFeeButton.addActionListener(new ConfigureFeeButtonHandler());
 		panel.add(configureFeeButton);
-		
+
 		JLabel mobileNumber = new JLabel("MOBILE NUMBER:");
 		mobileNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
 		panel.add(mobileNumber);
 
 		mobNumberText = new PMSJTextField(20);
-		mobNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		mobNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) mobNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(10));
 		JTextFieldList.add(mobNumberText);
 		panel.add(mobNumberText);
 
 		JLabel setTopBoxNumber = new JLabel("SET-TOP BOX NUMBER:");
-		setTopBoxNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		setTopBoxNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth,
+				COMPONENT_HEIGHT);
 		panel.add(setTopBoxNumber);
 
 		setTopBoxNumberText = new PMSJTextField(20);
-		setTopBoxNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		setTopBoxNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) setTopBoxNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(20));
 		JTextFieldList.add(setTopBoxNumberText);
 		panel.add(setTopBoxNumberText);
@@ -277,7 +284,8 @@ public class NewEntryForm  implements ApplicationConstants {
 		panel.add(casnumber);
 
 		cafNumberText = new PMSJTextField(20);
-		cafNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		cafNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) cafNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(12));
 		JTextFieldList.add(cafNumberText);
 		panel.add(cafNumberText);
@@ -318,29 +326,19 @@ public class NewEntryForm  implements ApplicationConstants {
 		}
 
 	}
-	
+
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			JFrame frame = new JFrame("CONFIGURE FEE");
-		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    
-		    DualListBoxJPanel dualListBoxFrame = new DualListBoxJPanel();
-		    List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-		    dualListBoxFrame.addSourceElements(channelDetailsList);
-		    frame.add(dualListBoxFrame, BorderLayout.CENTER);
-		    frame.setResizable(false);
-		    frame.setVisible(true);
-			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			frame.setSize(screenSize);
+			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
+			new DualListBoxJPanel(newEntryForm, channelDetailsList);
 		}
 
 	}
 
 	private class SaveButtonHandler implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {			
+		public void actionPerformed(ActionEvent e) {
 			Toolkit.getDefaultToolkit().beep();
 			User user = new User();
 			user.setId(Integer.valueOf(slNOText.getText()));
@@ -354,8 +352,10 @@ public class NewEntryForm  implements ApplicationConstants {
 			user.setConnectionCharge(connectionChargeText.getText());
 			user.setCustomerName(customerNameText.getText());
 			user.setDoc(picker.getDate());
-			user.setFeesHistory(setFeeHistoryParams(feeText.getText(),picker.getDate(),Integer.valueOf(slNOText.getText())));
-			user.setSector(sectorText.getText() + (null == sectorText2.getText() ? EMPTY_STRING : HYPHEN + sectorText2.getText()));
+			user.setFeesHistory(
+					setFeeHistoryParams(feeText.getText(), picker.getDate(), Integer.valueOf(slNOText.getText())));
+			user.setSector(sectorText.getText()
+					+ (null == sectorText2.getText() ? EMPTY_STRING : HYPHEN + sectorText2.getText()));
 			user.setStreet(streetText.getText());
 			user.setMobileNumber(mobNumberText.getText());
 			user.setSetTopBoxNumber(setTopBoxNumberText.getText());

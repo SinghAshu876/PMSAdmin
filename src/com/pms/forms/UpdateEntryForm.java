@@ -25,11 +25,13 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXDatePicker;
 
 import com.pms.custom.components.ColoredJPanel;
+import com.pms.custom.components.DualListBoxJPanel;
 import com.pms.custom.components.PMSJTextField;
 import com.pms.custom.components.PMSJXDatePicker;
 import com.pms.document.filters.NumberTextFieldDocumentFilter;
 import com.pms.document.filters.UpperCaseWithLimitDocumentFilter;
 import com.pms.document.filters.UppercaseDocumentFilter;
+import com.pms.entity.ChannelDetails;
 import com.pms.entity.DisconnectReconnectDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
@@ -487,7 +489,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
+			new DualListBoxJPanel(updateEntryForm, channelDetailsList);
 		}
 
 	}
