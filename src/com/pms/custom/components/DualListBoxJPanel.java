@@ -2,9 +2,11 @@ package com.pms.custom.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,14 +19,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
 import com.pms.entity.ChannelDetails;
 import com.pms.list.model.SortedListModel;
 
-public class DualListBoxFrame extends JPanel {
+public class DualListBoxJPanel extends JPanel {
 
 	/**
 	* 
@@ -33,13 +37,19 @@ public class DualListBoxFrame extends JPanel {
 
 	private static final Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
 
-	private static final String ADD_BUTTON_LABEL = "Add >>";
+	private static final String ADD_BUTTON_LABEL = "ADD CHANNEL >>";
 
-	private static final String REMOVE_BUTTON_LABEL = "<< Remove";
+	private static final String REMOVE_BUTTON_LABEL = "<< REMOVE CHANNEL";
 
-	private static final String DEFAULT_SOURCE_CHOICE_LABEL = "Available Choices";
+	private static final String CONFIRM_BUTTON_LABEL = "CONFIRM FEES FOR SELECTED CHANNELS ";
 
-	private static final String DEFAULT_DEST_CHOICE_LABEL = "Your Choices";
+	private static final String BACK_BUTTON_LABEL = "BACK";
+
+	private static final String DEFAULT_SOURCE_CHOICE_LABEL = "AVAILABLE CHANNELS:";
+
+	private static final String DEFAULT_DEST_CHOICE_LABEL = "SELECTED CHANNELS:";
+
+	private static final String TOTAL_FEES_LABEL = "TOTAL FEES FOR SELECTED CHANNELS:";
 
 	private JLabel sourceLabel;
 
@@ -57,7 +67,17 @@ public class DualListBoxFrame extends JPanel {
 
 	private JButton removeButton;
 
-	public DualListBoxFrame() {
+	private JLabel totalFeesLabel;
+
+	private JTextField feeText;
+
+	private JButton confirmButton;
+
+	private JButton backButton;
+
+	private int sumOfChannelsSelected = 0;
+
+	public DualListBoxJPanel() {
 		initScreen();
 	}
 
@@ -179,7 +199,7 @@ public class DualListBoxFrame extends JPanel {
 
 	private void clearSourceSelected() {
 		List<ChannelDetails> selectedList = sourceList.getSelectedValuesList();
-		for (int i = selectedList.size()-1; i >= 0; --i) {
+		for (int i = selectedList.size() - 1; i >= 0; --i) {
 			sourceListModel.removeElement(selectedList.get(i));
 		}
 		sourceList.getSelectionModel().clearSelection();
@@ -187,7 +207,7 @@ public class DualListBoxFrame extends JPanel {
 
 	private void clearDestinationSelected() {
 		List<ChannelDetails> selectedList = destList.getSelectedValuesList();
-		for (int i = selectedList.size()-1; i >= 0; --i) {
+		for (int i = selectedList.size() - 1; i >= 0; --i) {
 			destListModel.removeElement(selectedList.get(i));
 		}
 		destList.getSelectionModel().clearSelection();
@@ -196,21 +216,24 @@ public class DualListBoxFrame extends JPanel {
 	private void initScreen() {
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new GridBagLayout());
+		setBackground(Color.CYAN);
+
 		sourceLabel = new JLabel(DEFAULT_SOURCE_CHOICE_LABEL);
 		sourceListModel = new SortedListModel();
 		sourceList = new JList<ChannelDetails>(sourceListModel);
 		add(sourceLabel, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
-		add(new JScrollPane(sourceList), new GridBagConstraints(0, 1, 1, 5, .5, 1, GridBagConstraints.CENTER,
+		add(new JScrollPane(sourceList), new GridBagConstraints(0, 1, 1, 2, .25, 1, GridBagConstraints.CENTER,
 				GridBagConstraints.BOTH, EMPTY_INSETS, 0, 0));
 
 		addButton = new JButton(ADD_BUTTON_LABEL);
-		add(addButton, new GridBagConstraints(1, 2, 1, 2, 0, .25, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+		add(addButton, new GridBagConstraints(1, 1, 1, 2, 0, .5, GridBagConstraints.NORTH, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
 		addButton.addActionListener(new AddListener());
+
 		removeButton = new JButton(REMOVE_BUTTON_LABEL);
-		add(removeButton, new GridBagConstraints(1, 4, 1, 2, 0, .25, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-				new Insets(0, 5, 0, 5), 0, 0));
+		add(removeButton, new GridBagConstraints(1, 2, 1, 2, 0, .5, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+				EMPTY_INSETS, 0, 0));
 		removeButton.addActionListener(new RemoveListener());
 
 		destLabel = new JLabel(DEFAULT_DEST_CHOICE_LABEL);
@@ -218,15 +241,52 @@ public class DualListBoxFrame extends JPanel {
 		destList = new JList<ChannelDetails>(destListModel);
 		add(destLabel, new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
-		add(new JScrollPane(destList), new GridBagConstraints(2, 1, 1, 5, .5, 1.0, GridBagConstraints.CENTER,
+		add(new JScrollPane(destList), new GridBagConstraints(2, 1, 1, 3, .5, 1, GridBagConstraints.CENTER,
 				GridBagConstraints.BOTH, EMPTY_INSETS, 0, 0));
+		totalFeesLabel = new JLabel(TOTAL_FEES_LABEL);
+		add(totalFeesLabel, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
+				EMPTY_INSETS, 0, 0));
+		feeText = new PMSJTextField(15);
+		feeText.setEditable(false);
+		feeText.setText(String.valueOf(sumOfChannelsSelected));
+		add(feeText, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+				EMPTY_INSETS, 0, 0));
+
+		confirmButton = new JButton(CONFIRM_BUTTON_LABEL);
+		add(confirmButton, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.EAST, GridBagConstraints.NONE,
+				EMPTY_INSETS, 0, 0));
+		confirmButton.addActionListener(new ConfirmButtonListener());
+		
+		backButton = new JButton(BACK_BUTTON_LABEL);
+		add(backButton, new GridBagConstraints(2, 5, 1, 2, 0.25, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
+				EMPTY_INSETS, 0, 0));
+		backButton.addActionListener(new BackButtonListener());
+
+
+	}
+
+	private class ConfirmButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+		}
+	}
+
+	private class BackButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+		}
 	}
 
 	private class AddListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			List<ChannelDetails> selected = sourceList.getSelectedValuesList();
-			addDestinationElements(selected );
+			addDestinationElements(selected);
 			clearSourceSelected();
+			for (ChannelDetails channelDetails : selected) {
+				sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice();
+			}
+			feeText.setText(String.valueOf(sumOfChannelsSelected));
+
 		}
 	}
 
@@ -235,28 +295,37 @@ public class DualListBoxFrame extends JPanel {
 			List<ChannelDetails> selected = destList.getSelectedValuesList();
 			addSourceElements(selected);
 			clearDestinationSelected();
+			for (ChannelDetails channelDetails : selected) {
+				sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice();
+			}
+			feeText.setText(String.valueOf(sumOfChannelsSelected));
+
 		}
 	}
-	
-	  public static void main(String args[]) {
-		    JFrame frame = new JFrame("Dual List Box Tester");
-		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    DualListBoxFrame dual = new DualListBoxFrame();
-		    List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
-		    ChannelDetails channelDetails1= new ChannelDetails();
-		    channelDetails1.setChannelId(1);
-		    channelDetails1.setChannelName("Test Channel 1");
-		    channelDetails1.setChannelPrice(10);
-			channelDetailsList.add(channelDetails1);
-		    ChannelDetails channelDetails2 = new ChannelDetails();
-		    channelDetails2.setChannelId(1);
-		    channelDetails2.setChannelName("Test Channel 2");
-		    channelDetails2.setChannelPrice(10);
-			channelDetailsList.add(channelDetails2 );
-		    dual.addSourceElements(channelDetailsList);
-		    frame.add(dual, BorderLayout.CENTER);
-		    frame.setSize(400, 300);
-		    frame.setVisible(true);
-		  }
+
+	public static void main(String args[]) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		JFrame frame = new JFrame("Dual List Box Tester");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(new JScrollBar());
+		DualListBoxJPanel dual = new DualListBoxJPanel();
+		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
+		ChannelDetails channelDetails1 = new ChannelDetails();
+		channelDetails1.setChannelId(1);
+		channelDetails1.setChannelName("Test Channel 1");
+		channelDetails1.setChannelPrice(10);
+		channelDetailsList.add(channelDetails1);
+		ChannelDetails channelDetails2 = new ChannelDetails();
+		channelDetails2.setChannelId(2);
+		channelDetails2.setChannelName("Test Channel 2");
+		channelDetails2.setChannelPrice(10);
+		channelDetailsList.add(channelDetails2);
+		dual.addSourceElements(channelDetailsList);
+		frame.add(dual, BorderLayout.CENTER);
+		frame.setVisible(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setSize(screenSize);
+	}
 
 }

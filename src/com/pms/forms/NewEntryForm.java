@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXDatePicker;
 
 import com.pms.custom.components.ColoredJPanel;
-import com.pms.custom.components.DualListBoxFrame;
+import com.pms.custom.components.DualListBoxJPanel;
 import com.pms.custom.components.PMSJTextField;
 import com.pms.custom.components.PMSJXDatePicker;
 import com.pms.document.filters.NumberTextFieldDocumentFilter;
@@ -322,14 +322,18 @@ public class NewEntryForm  implements ApplicationConstants {
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			JFrame frame = new JFrame("CONFIGURE FEE");
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    DualListBoxFrame dual = new DualListBoxFrame();
+		    
+		    DualListBoxJPanel dualListBoxFrame = new DualListBoxJPanel();
 		    List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-		    dual.addSourceElements(channelDetailsList);
-		    frame.add(dual, BorderLayout.CENTER);
-		    frame.setSize(400, 300);
+		    dualListBoxFrame.addSourceElements(channelDetailsList);
+		    frame.add(dualListBoxFrame, BorderLayout.CENTER);
+		    frame.setResizable(false);
 		    frame.setVisible(true);
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			frame.setSize(screenSize);
 		}
 
 	}
