@@ -9,7 +9,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,13 +18,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
 import com.pms.entity.ChannelDetails;
+import com.pms.forms.NewEntryForm;
+import com.pms.forms.UpdateEntryForm;
 import com.pms.list.model.SortedListModel;
 
 public class DualListBoxJPanel extends JPanel {
@@ -79,18 +79,25 @@ public class DualListBoxJPanel extends JPanel {
 
 	private JFrame parentFrame;
 	
-	private JFrame configureFeeFrame ;
-	
+	private Object parentClassObject;
+
+	private JFrame configureFeeFrame;
 
 	public JFrame getParentFrame() {
 		return parentFrame;
 	}
 
-	public DualListBoxJPanel(JFrame parentFrame, List<ChannelDetails> channelDetailsList) {
-		this.parentFrame= parentFrame;
+	public DualListBoxJPanel(List<ChannelDetails> channelDetailsList, Object classObject) {
+		if(classObject instanceof NewEntryForm) {
+			this.parentFrame = ((NewEntryForm)classObject).getFrame();
+		}
+		else if (classObject instanceof UpdateEntryForm) {
+			this.parentFrame = ((UpdateEntryForm)classObject).getFrame();
+		}
+		this.parentClassObject = classObject;
 		initScreen();
-	    addSourceElements(channelDetailsList);
-		
+		addSourceElements(channelDetailsList);
+
 	}
 
 	public String getSourceChoicesTitle() {
@@ -230,17 +237,17 @@ public class DualListBoxJPanel extends JPanel {
 	}
 
 	private void initScreen() {
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		configureFeeFrame = new JFrame("CONFIGURE-FEE-FRAME");
-	    configureFeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    configureFeeFrame.setResizable(false);
-	    configureFeeFrame.setVisible(true);
+		configureFeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		configureFeeFrame.setResizable(false);
+		configureFeeFrame.setVisible(true);
 		configureFeeFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		configureFeeFrame.setSize(screenSize);
-	    configureFeeFrame.add(this, BorderLayout.CENTER);
+		configureFeeFrame.add(this, BorderLayout.CENTER);
 		getParentFrame().setVisible(false);
-		
+
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new GridBagLayout());
 		setBackground(Color.CYAN);
@@ -291,16 +298,26 @@ public class DualListBoxJPanel extends JPanel {
 
 	}
 
-	private class ConfirmButtonListener implements ActionListener {
+	public class ConfirmButtonListener implements ActionListener {
+
 		public void actionPerformed(ActionEvent e) {
+			configureFeeFrame.setVisible(false);
+			getParentFrame().setVisible(true);
+			if(parentClassObject instanceof NewEntryForm) {
+				((NewEntryForm) parentClassObject).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+			}
+			else if (parentClassObject instanceof UpdateEntryForm) {
+				((UpdateEntryForm) parentClassObject).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+			}
 
 		}
+
 	}
 
 	private class BackButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-            configureFeeFrame.setVisible(false); 
-			getParentFrame().setVisible(true);             
+			configureFeeFrame.setVisible(false);
+			getParentFrame().setVisible(true);
 		}
 	}
 
@@ -330,32 +347,37 @@ public class DualListBoxJPanel extends JPanel {
 		}
 	}
 
-	public static void main(String args[]) {
-		
-		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
-		ChannelDetails channelDetails1 = new ChannelDetails();
-		channelDetails1.setChannelId(1);
-		channelDetails1.setChannelName("Test Channel 1");
-		channelDetails1.setChannelPrice(10);
-		channelDetailsList.add(channelDetails1);
-		ChannelDetails channelDetails2 = new ChannelDetails();
-		channelDetails2.setChannelId(2);
-		channelDetails2.setChannelName("Test Channel 2");
-		channelDetails2.setChannelPrice(10);
-		channelDetailsList.add(channelDetails2);
-		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		
-		JFrame frame = new JFrame("Dual List Box Tester");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new JScrollBar());
-		DualListBoxJPanel dual = new DualListBoxJPanel(frame,channelDetailsList);
-
-		frame.add(dual, BorderLayout.CENTER);
-		frame.setVisible(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setSize(screenSize);
+	public int getSumOfChannelsSelected() {
+		return sumOfChannelsSelected;
 	}
+
+	public void setSumOfChannelsSelected(int sumOfChannelsSelected) {
+		this.sumOfChannelsSelected = sumOfChannelsSelected;
+	}
+
+	/*
+	 * public static void main(String args[]) {
+	 * 
+	 * List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
+	 * ChannelDetails channelDetails1 = new ChannelDetails();
+	 * channelDetails1.setChannelId(1);
+	 * channelDetails1.setChannelName("Test Channel 1");
+	 * channelDetails1.setChannelPrice(10); channelDetailsList.add(channelDetails1);
+	 * ChannelDetails channelDetails2 = new ChannelDetails();
+	 * channelDetails2.setChannelId(2);
+	 * channelDetails2.setChannelName("Test Channel 2");
+	 * channelDetails2.setChannelPrice(10); channelDetailsList.add(channelDetails2);
+	 * 
+	 * Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	 * 
+	 * 
+	 * JFrame frame = new JFrame("Dual List Box Tester");
+	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); frame.add(new
+	 * JScrollBar()); DualListBoxJPanel dual = new
+	 * DualListBoxJPanel(frame,channelDetailsList);
+	 * 
+	 * frame.add(dual, BorderLayout.CENTER); frame.setVisible(true);
+	 * frame.setExtendedState(JFrame.MAXIMIZED_BOTH); frame.setSize(screenSize); }
+	 */
 
 }

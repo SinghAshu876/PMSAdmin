@@ -51,30 +51,31 @@ import com.pms.validator.UserValidator;
  */
 public class UpdateEntryForm implements ApplicationConstants {
 
-	private  Logger LOG = Logger.getLogger(getClass());
-	
-	private JFrame updateEntryForm = null;
-	private JTextField slNOText = null;
-	private JTextField customerNameText = null;
-	private JTextField qrNoText = null;
-	private JTextField streetText = null;
-	private JTextField sectorText = null;
-	private JTextField sectorText2 = null;
-	private JTextField connectionChargeText = null;
-	private JTextField backDuesText = null;
-	private JTextField feeText = null;
-	private JTextField mobNumberText = null;
-	private JTextField setTopBoxNumberText = null;
-	private JTextField cafNumberText = null;
-	private JButton disconnectButton = null;
-	private JButton updateuserButton = null;
-	private JXDatePicker picker = null;
-	private JLabel disconnectLabel = null;
-	private JLabel reconnectLabel = null;
-	private JTextField feeCodeText = null;
-	private JXDatePicker disconnectDatePicker = null;
-	private JXDatePicker reconnectDatePicker = null;
-	private JButton reconnectButton = null;
+	private Logger LOG = Logger.getLogger(getClass());
+
+	private Object classInstance;
+	private JFrame updateEntryForm;
+	private JTextField slNOText;
+	private JTextField customerNameText;
+	private JTextField qrNoText;
+	private JTextField streetText;
+	private JTextField sectorText;
+	private JTextField sectorText2;
+	private JTextField connectionChargeText;
+	private JTextField backDuesText;
+	private JTextField feeText;
+	private JTextField mobNumberText;
+	private JTextField setTopBoxNumberText;
+	private JTextField cafNumberText;
+	private JButton disconnectButton;
+	private JButton updateuserButton;
+	private JXDatePicker picker;
+	private JLabel disconnectLabel;
+	private JLabel reconnectLabel;
+	private JTextField feeCodeText;
+	private JXDatePicker disconnectDatePicker;
+	private JXDatePicker reconnectDatePicker;
+	private JButton reconnectButton;
 	private int xCordinateOfLabel = 20;
 	private int xCordinateOfTextBox = 200;
 	private int componentWidth = 190;
@@ -107,6 +108,14 @@ public class UpdateEntryForm implements ApplicationConstants {
 		return id;
 	}
 
+	public JTextField getFeeText() {
+		return feeText;
+	}
+
+	public void setFeeText(JTextField feeText) {
+		this.feeText = feeText;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -117,6 +126,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 
 	public void init(String frameName) {
 		LOG.info("init ENTRY");
+		classInstance = this;
 		parentFrameName = frameName;
 		JFrame parentFrame = (JFrame) Container.frameContainer.get(frameName);
 		parentFrame.setVisible(false);
@@ -161,7 +171,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(customerName);
 
 		customerNameText = new PMSJTextField(20);
-		customerNameText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		customerNameText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		customerNameText.setText(user.getCustomerName());
 		((AbstractDocument) customerNameText.getDocument()).setDocumentFilter(new UpperCaseWithLimitDocumentFilter(20));
 		panel.add(customerNameText);
@@ -190,22 +201,22 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(sector);
 
 		sectorText = new PMSJTextField(20);
-		sectorText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth / 3, COMPONENT_HEIGHT);
+		sectorText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth / 3,
+				COMPONENT_HEIGHT);
 		((AbstractDocument) sectorText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(1));
 		sectorText2 = new PMSJTextField(20);
 		sectorText2.setBounds(280, getIncrementedValue(yValue, false), componentWidth / 5, COMPONENT_HEIGHT);
 		((AbstractDocument) sectorText2.getDocument()).setDocumentFilter(new UppercaseDocumentFilter());
 		if (user.getSector().contains(HYPHEN)) {
-			String [] sectorArray = user.getSector().split(HYPHEN);
-			if(sectorArray.length==2){
+			String[] sectorArray = user.getSector().split(HYPHEN);
+			if (sectorArray.length == 2) {
 				sectorText.setText(user.getSector().split(HYPHEN)[0]);
 				sectorText2.setText(user.getSector().split(HYPHEN)[1]);
-			}
-			else if (sectorArray.length==1){
+			} else if (sectorArray.length == 1) {
 				sectorText.setText(user.getSector().split(HYPHEN)[0]);
 				sectorText2.setText(EMPTY_STRING);
 			}
-			
+
 		} else {
 			sectorText.setText(user.getSector());
 			sectorText2.setText(EMPTY_STRING);
@@ -227,11 +238,13 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(picker);
 
 		JLabel connectionCharge = new JLabel("CONNECTION CHARGE:");
-		connectionCharge.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		connectionCharge.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth,
+				COMPONENT_HEIGHT);
 		panel.add(connectionCharge);
 
 		connectionChargeText = new PMSJTextField(20);
-		connectionChargeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		connectionChargeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		connectionChargeText.setText(user.getConnectionCharge());
 		((AbstractDocument) connectionChargeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		panel.add(connectionChargeText);
@@ -241,7 +254,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(backDues);
 
 		backDuesText = new PMSJTextField(20);
-		backDuesText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		backDuesText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		backDuesText.setText(feesServiceImpl.getBackDues(id));
 		((AbstractDocument) backDuesText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		panel.add(backDuesText);
@@ -296,7 +310,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 		feeCodeText.setText(feeCode);
 		temp = feeCode;
 		panel.add(feeCodeText);
-		
+
 		JButton configureFeeButton = new JButton("CONFIGURE FEE");
 		configureFeeButton.setBounds(400, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);
 		configureFeeButton.addActionListener(new ConfigureFeeButtonHandler());
@@ -307,17 +321,20 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(mobileNumber);
 
 		mobNumberText = new PMSJTextField(20);
-		mobNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		mobNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		mobNumberText.setText(user.getMobileNumber());
 		((AbstractDocument) mobNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(10));
 		panel.add(mobNumberText);
 
 		JLabel setTopBoxNumber = new JLabel("SET-TOP BOX NUMBER:");
-		setTopBoxNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		setTopBoxNumber.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth,
+				COMPONENT_HEIGHT);
 		panel.add(setTopBoxNumber);
 
 		setTopBoxNumberText = new PMSJTextField(20);
-		setTopBoxNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		setTopBoxNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		setTopBoxNumberText.setText(user.getSetTopBoxNumber());
 		((AbstractDocument) setTopBoxNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(20));
 		panel.add(setTopBoxNumberText);
@@ -327,7 +344,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(casNumber);
 
 		cafNumberText = new PMSJTextField(20);
-		cafNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
+		cafNumberText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth,
+				COMPONENT_HEIGHT);
 		cafNumberText.setText(user.getCafNumber());
 		((AbstractDocument) cafNumberText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(12));
 		panel.add(cafNumberText);
@@ -351,14 +369,16 @@ public class UpdateEntryForm implements ApplicationConstants {
 			createDisconnectComponents("DISCONNECT DATE :", "DISCONNECT", null, true);
 			createReconnectComponents("RECONNECT DATE :", "RECONNECT", false);
 		} else {
-			createDisconnectComponents("DISCONNECT DATE :", "DISCONNECT", userServiceImpl.getDisconnectedDate(id), false);
+			createDisconnectComponents("DISCONNECT DATE :", "DISCONNECT", userServiceImpl.getDisconnectedDate(id),
+					false);
 			createReconnectComponents("RECONNECT DATE :", "RECONNECT", true);
 			disableButtons();
 		}
 		LOG.info("placeComponents EXIT");
 	}
 
-	private void createDisconnectComponents(String label, String buttonLabel, Date dateOfDisconnection, boolean enabled) {
+	private void createDisconnectComponents(String label, String buttonLabel, Date dateOfDisconnection,
+			boolean enabled) {
 		disconnectLabel = new JLabel(label);
 		disconnectLabel.setBounds(400, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth, COMPONENT_HEIGHT);
 		panel.add(disconnectLabel);
@@ -368,7 +388,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 		disconnectDatePicker.setFormats(new SimpleDateFormat(DATE_PICKER_PATTERN));
 		disconnectDatePicker.setEditable(enabled);
 		disconnectDatePicker.setEnabled(enabled);
-		disconnectDatePicker.setBounds(570, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth, COMPONENT_HEIGHT);
+		disconnectDatePicker.setBounds(570, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth,
+				COMPONENT_HEIGHT);
 		panel.add(disconnectDatePicker);
 
 		disconnectButton = new JButton(buttonLabel);
@@ -385,7 +406,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 
 		reconnectDatePicker = new PMSJXDatePicker();
 		reconnectDatePicker.setFormats(new SimpleDateFormat(DATE_PICKER_PATTERN));
-		reconnectDatePicker.setBounds(570, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth, COMPONENT_HEIGHT);
+		reconnectDatePicker.setBounds(570, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth,
+				COMPONENT_HEIGHT);
 		reconnectDatePicker.setEditable(visible);
 		reconnectDatePicker.setEnabled(visible);
 		panel.add(reconnectDatePicker);
@@ -442,7 +464,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private class DeleteButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int response = JOptionPane.showConfirmDialog(null, "DO YOU WANT TO DELETE?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int response = JOptionPane.showConfirmDialog(null, "DO YOU WANT TO DELETE?", "WARNING",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (response == JOptionPane.NO_OPTION) {
 				return;
 			} else if (response == JOptionPane.YES_OPTION) {
@@ -465,32 +488,31 @@ public class UpdateEntryForm implements ApplicationConstants {
 	}
 
 	/*
-	 * private void updateBackDues(Integer id, FeesDetails feesDetails) {
-	 * UserDAO userDao = new UserDAO(); User user = userDao.readUserById(id); if
-	 * (user != null && user.getFee() != null && feesDetails != null &&
-	 * feesDetails.getFees() != null) { Integer feesEntered =
-	 * Integer.valueOf(feesDetails.getFees()); Integer feesDefined =
-	 * Integer.valueOf(user.getFee()); Integer newBackDues = 0; Integer
-	 * existingBackDues = Integer.valueOf(user.getBackDues()); if (feesEntered
-	 * <= feesDefined) { System.out.println("feesEntered <= feesDefined");
-	 * newBackDues = feesDefined - feesEntered;
-	 * user.setBackDues(String.valueOf(existingBackDues + newBackDues));
-	 * userDao.update(user); } else if (feesEntered > feesDefined) {
-	 * System.out.println("feesEntered > feesDefined"); newBackDues =
-	 * feesEntered - feesDefined; if (existingBackDues == 0) {
-	 * user.setBackDues(String.valueOf(0 - newBackDues)); } else {
-	 * user.setBackDues(String.valueOf(newBackDues - existingBackDues)); }
+	 * private void updateBackDues(Integer id, FeesDetails feesDetails) { UserDAO
+	 * userDao = new UserDAO(); User user = userDao.readUserById(id); if (user !=
+	 * null && user.getFee() != null && feesDetails != null && feesDetails.getFees()
+	 * != null) { Integer feesEntered = Integer.valueOf(feesDetails.getFees());
+	 * Integer feesDefined = Integer.valueOf(user.getFee()); Integer newBackDues =
+	 * 0; Integer existingBackDues = Integer.valueOf(user.getBackDues()); if
+	 * (feesEntered <= feesDefined) {
+	 * System.out.println("feesEntered <= feesDefined"); newBackDues = feesDefined -
+	 * feesEntered; user.setBackDues(String.valueOf(existingBackDues +
+	 * newBackDues)); userDao.update(user); } else if (feesEntered > feesDefined) {
+	 * System.out.println("feesEntered > feesDefined"); newBackDues = feesEntered -
+	 * feesDefined; if (existingBackDues == 0) { user.setBackDues(String.valueOf(0 -
+	 * newBackDues)); } else { user.setBackDues(String.valueOf(newBackDues -
+	 * existingBackDues)); }
 	 * 
 	 * userDao.update(user); } }
 	 * 
 	 * }
 	 */
-	
+
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-			new DualListBoxJPanel(updateEntryForm, channelDetailsList);
+			new DualListBoxJPanel(channelDetailsList, classInstance);
 		}
 
 	}
@@ -508,12 +530,15 @@ public class UpdateEntryForm implements ApplicationConstants {
 				return;
 			}
 			List<DisconnectReconnectDetails> discoRecoHistory = userServiceImpl.getDiscoRecoHistory(user.getId());
-			if(!discoRecoHistory.isEmpty() && discoRecoHistory.get(0).getDateOfDisconnection()!=null && discoRecoHistory.get(0).getDateOfReconnection()!=null){
-				JOptionPane.showMessageDialog(null, "USER CAN BE DISCONNECTED-RECONNECTED ONLY ONCE.KINDLY DELETE THIS USER AND CREATE A NEW ONE ");
+			if (!discoRecoHistory.isEmpty() && discoRecoHistory.get(0).getDateOfDisconnection() != null
+					&& discoRecoHistory.get(0).getDateOfReconnection() != null) {
+				JOptionPane.showMessageDialog(null,
+						"USER CAN BE DISCONNECTED-RECONNECTED ONLY ONCE.KINDLY DELETE THIS USER AND CREATE A NEW ONE ");
 				return;
 			}
-			
-			int successValue = new UserServiceImpl().disconnectReconnectUser(PMSUtility.convertToSqlDate(disconnectReconnectDate), user, ActiveStatus.N.name());
+
+			int successValue = new UserServiceImpl().disconnectReconnectUser(
+					PMSUtility.convertToSqlDate(disconnectReconnectDate), user, ActiveStatus.N.name());
 			if (successValue == 1) {
 				JOptionPane.showMessageDialog(null, "DISCONNECTED THE CONNECTION ON :" + disconnectReconnectDate);
 				disableButtons();
@@ -537,40 +562,42 @@ public class UpdateEntryForm implements ApplicationConstants {
 				LOG.info("No Date Selected!, Updating today`s Date");
 				reconnectDate = today;
 			}
-			
+
 			List<DisconnectReconnectDetails> discoRecoHistory = userServiceImpl.getDiscoRecoHistory(user.getId());
 			DisconnectReconnectDetails disconnectReconnectDetails = discoRecoHistory.get(0);
 			Date dodc = disconnectReconnectDetails.getDateOfDisconnection();
-			/**LOGIC : RECONNECTION SHOULD BE ALWAYS GREATER THAN OR EQUAL TO DISCONNECTED DATE*/
-			String message  = null;
-			if(!reconnectDate.before(dodc)){
+			/**
+			 * LOGIC : RECONNECTION SHOULD BE ALWAYS GREATER THAN OR EQUAL TO DISCONNECTED
+			 * DATE
+			 */
+			String message = null;
+			if (!reconnectDate.before(dodc)) {
 				message = "RECONNECTED THE CONNECTION ON";
-				reconnectAndEnable(reconnectDate,message);
-				return;				
-			}
-			else if(reconnectDate.before(dodc)){
+				reconnectAndEnable(reconnectDate, message);
+				return;
+			} else if (reconnectDate.before(dodc)) {
 				message = "SINCE RECONECTION DATE BEFORE DODC ,SO RECONNECTED THE CONNECTION ON ";
-				reconnectAndEnable(dodc,message);
+				reconnectAndEnable(dodc, message);
 				LOG.info("RECONNECTION SHOULD BE ALWAYS GREATER THAN OR EQUAL TO DISCONNECTED DATE");
-			    return;
+				return;
 			}
 
 		}
 
 		private void reconnectAndEnable(java.util.Date reconnectDate, String message) {
-			int successValue = userServiceImpl.disconnectReconnectUser(PMSUtility.convertToSqlDate(reconnectDate), user, ActiveStatus.Y.name());
+			int successValue = userServiceImpl.disconnectReconnectUser(PMSUtility.convertToSqlDate(reconnectDate), user,
+					ActiveStatus.Y.name());
 			if (successValue == 1) {
-				JOptionPane.showMessageDialog(null, message +" :" + reconnectDate);
+				JOptionPane.showMessageDialog(null, message + " :" + reconnectDate);
 				enableButtons();
 				disableReconnectButtons();
 				user.setActive(ActiveStatus.Y.name());
 				return;
-			}
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "PROBLEM RECONNECTING  THE USER");
 				return;
 			}
-			
+
 		}
 
 	}
@@ -582,7 +609,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 			user.setQrNo(Integer.valueOf(qrNoText.getText()));
 			user.setConnectionCharge(connectionChargeText.getText());
 			user.setCustomerName(customerNameText.getText());
-            user.setFeesHistory(setFeeHistoryParams(feeText.getText(), id));
+			user.setFeesHistory(setFeeHistoryParams(feeText.getText(), id));
 			user.setSector(sectorText.getText() + (null == sectorText2.getText() ? "" : "-" + sectorText2.getText()));
 			user.setStreet(streetText.getText());
 			user.setMobileNumber(mobNumberText.getText());
@@ -609,11 +636,10 @@ public class UpdateEntryForm implements ApplicationConstants {
 				JOptionPane.showMessageDialog(null, validatorHashMap.toString());
 				return;
 			}
-			
 
 		}
-		
-		private FeesHistory setFeeHistoryParams(String text,  Integer id) {
+
+		private FeesHistory setFeeHistoryParams(String text, Integer id) {
 			java.util.Date today = new java.util.Date();
 			FeesHistory feesHistory = new FeesHistory();
 			feesHistory.setId(id);
@@ -622,6 +648,14 @@ public class UpdateEntryForm implements ApplicationConstants {
 			feesHistory.setFees(Integer.parseInt(text));
 			return feesHistory;
 		}
+	}
+
+	public JFrame getFrame() {
+		return updateEntryForm;
+	}
+
+	public void setFrame(JFrame updateEntryForm) {
+		this.updateEntryForm = updateEntryForm;
 	}
 
 }
