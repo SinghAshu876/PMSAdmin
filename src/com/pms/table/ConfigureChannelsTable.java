@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 import com.pms.custom.components.PMSJTextField;
 import com.pms.document.filters.NumberTextFieldDocumentFilter;
+import com.pms.document.filters.UpperCaseWithLimitDocumentFilter;
 import com.pms.entity.ChannelDetails;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.table.model.ChannelDetailsTableModel;
@@ -40,16 +41,16 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
-	private JTable table = null;
-	public JFrame configureChannelsFrame = null;
+	private JTable table ;
+	public JFrame configureChannelsFrame;
 	private int componentWidth = 210;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 	private JTextField channelIdText = new PMSJTextField();
 	private JTextField channelNameText = new PMSJTextField();
 	private JTextField channelPriceText = new PMSJTextField();
-	private JButton addButton = null;
-	private JButton updateButton = null;
-	private JButton deleteButton = null;
+	private JButton addButton ;
+	private JButton updateButton ;
+	private JButton deleteButton ;
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
@@ -97,6 +98,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 
 		channelNameText = new PMSJTextField();
 		channelNameText.setBounds(120, 440, componentWidth, COMPONENT_HEIGHT);
+		((AbstractDocument) channelNameText.getDocument()).setDocumentFilter(new UpperCaseWithLimitDocumentFilter(30));
 		configureChannelsFrame.add(channelNameText);
 
 		channelPriceText = new PMSJTextField();
