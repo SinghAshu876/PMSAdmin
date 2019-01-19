@@ -84,7 +84,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		}
 		LOG.info("updateChannelDetails EXIT");
 		return success;
-	
+
 	}
 
 	public int addChannelDetails(ChannelDetails channelDetails) {
@@ -106,8 +106,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		return success;
 
 	}
-	
-	
+
 	public Integer getChannelId() {
 		LOG.info("getChannelId ENTRY");
 		Connection connection = JDBCConnection.getConnection();
@@ -123,6 +122,36 @@ public class ChannelDetailsDAO implements DBConstants {
 		}
 		LOG.info("getChannelId EXIT");
 		return result;
+
+	}
+
+	public List<ChannelDetails> getSelectedChannelsOfUser(int userId) {
+		LOG.info("getSelectedChannelsOfUser ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
+
+		String sql = READ_CHANNEL_DETAILS_BY_CHANNELID_QUERY;
+		LOG.info("getSelectedChannelsOfUser sql : " + sql);
+		try (PreparedStatement pStmnt = connection.prepareStatement(sql)) {
+
+			pStmnt.setInt(1, userId);
+
+			try (ResultSet rs = pStmnt.executeQuery()) {
+				while (rs.next()) {
+					ChannelDetails channelDetails = new ChannelDetails();
+					channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
+					channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
+					channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+
+					channelDetailsList.add(channelDetails);
+				}
+			}
+			LOG.info("No of channels Fetched " + channelDetailsList.size());
+		} catch (SQLException e) {
+			LOG.error("Db problem in getting selected channels", e);
+		}
+		LOG.info("getSelectedChannelsOfUser EXIT");
+		return channelDetailsList;
 
 	}
 }

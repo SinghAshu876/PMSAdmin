@@ -1,5 +1,6 @@
 package com.pms.list.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -69,5 +70,9 @@ public class SortedListModel extends AbstractListModel<ChannelDetails> {
 			fireContentsChanged(this, 0, getSize());
 		}
 		return removed;
+	}
+	
+	public ArrayList<ChannelDetails> getAsList(){
+		return new ArrayList<ChannelDetails>(model);
 	}
 }

@@ -1,6 +1,7 @@
 package com.pms.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -25,6 +26,15 @@ public class User {
 	private Date doc;
 	private String backDues;
 	private String docValidate;
+	private List<ChannelDetails> channelsList;
+
+	public List<ChannelDetails> getChannelsList() {
+		return channelsList;
+	}
+
+	public void setChannelsList(List<ChannelDetails> channelsList) {
+		this.channelsList = channelsList;
+	}
 
 	public Date getDoc() {
 		return doc;

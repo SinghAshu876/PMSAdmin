@@ -1,103 +1,78 @@
 package com.pms.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
 import com.pms.entity.ChannelDetails;
+import com.pms.entity.User;
 import com.pms.util.DBConstants;
 
 public class UserChannelDetailsDAO implements DBConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
-	public List<ChannelDetails> getAllUserChannelDetails() {
-		LOG.info("getAllUserChannelDetails ENTRY");
-		Connection connection = JDBCConnection.getConnection();
-		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
-		String sql = READ_CHANNEL_DETAILS_QUERY;
-		LOG.info("getAllChannelDetails sql : " + sql);
-		try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(sql);) {
-			while (rs.next()) {
-				ChannelDetails channelDetails = new ChannelDetails();
-				channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
-				channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
-				channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+	private static final int BATCH_SIZE = 50;
 
-				channelDetailsList.add(channelDetails);
+	public int save(User user) {
+		LOG.info("save ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		int success = 1;
+		String sql = INSERT_USER_CHANNEL_DETAILS_QUERY;
+		LOG.info("save sql : " + sql);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			int i = 0;
+			List<ChannelDetails> channelDetailsList = user.getChannelsList();
+
+			for (ChannelDetails channelDetails : channelDetailsList) {
+				preparedStatement.setString(1, UUID.randomUUID().toString());
+				preparedStatement.setInt(2, user.getId());
+				preparedStatement.setInt(3, channelDetails.getChannelId());
+				preparedStatement.addBatch();
+				i++;
+				if (i % BATCH_SIZE == 0) {
+					preparedStatement.executeBatch();
+				}
 			}
+			preparedStatement.executeBatch();
 
-			LOG.info("No of channels Fetched" + channelDetailsList.size());
-
+			LOG.info("SUCCESSFULLY INSERTED USER CHANNEL DETAILS DATA INTO TABLE");
 		} catch (SQLException e) {
-			LOG.error("Db problem in getting channels", e);
+			success = 0;
+			LOG.error("Db problem in save", e);
 		}
-		LOG.info("getAllChannelDetails EXIT");
-		return channelDetailsList;
+		LOG.info("save EXIT");
+		return success;
 	}
 
-	/*public int deleteChannelDetails(int channelId) {
-		LOG.info("deleteChannelDetails ENTRY");
+	public Integer[] getSelectedChannelIdsOfUser(int userId) {
+		LOG.info("getSelectedChannelIdsOfUser ENTRY");
+
 		Connection connection = JDBCConnection.getConnection();
-		String sql = DELETE_CHANNEL_DETAILS_QUERY;
-		LOG.info("deleteChannelDetails sql : " + sql);
-		int success = -1;
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-			preparedStatement.setInt(1, channelId);
-			success = preparedStatement.executeUpdate();
-			LOG.info("successfully deleted ChannelDetails from table");
+		List<Integer> channelIdList = new ArrayList<Integer>();
+		String sql = READ_USER_CHANNEL_DETAILS_BY_USERID_QUERY;
+		LOG.info("getSelectedChannelIdsOfUser sql : " + sql);
+		try (PreparedStatement pStmnt = connection.prepareStatement(sql)) {
+			pStmnt.setInt(1, userId);
+			try (ResultSet rs = pStmnt.executeQuery()) {
+				while (rs.next()) {
+					channelIdList.add(rs.getInt(CHANNELID));
+				}
+			}
+			LOG.info("No of channel ids Fetched " + channelIdList.size());
 		} catch (SQLException e) {
-			LOG.error("problem cleaning up the ChannelDetails table", e);
-
+			LOG.error("Db problem in getting channel id", e);
 		}
-		LOG.info("deleteChannelDetails EXIT");
-		return success;
+		Integer[] channelIdArray = channelIdList.toArray(new Integer[0]);
 
+		LOG.info("getSelectedChannelIdsOfUser EXIT size " + channelIdArray.length);
+		return channelIdArray;
 	}
 
-	public int updateChannelDetails(ChannelDetails channelDetails) {
-		LOG.info("updateChannelDetails ENTRY");
-		Connection connection = JDBCConnection.getConnection();
-		int success = -1;
-		String sql = UPDATE_CHANNEL_DETAILS_QUERY;
-		LOG.info("update sql : " + sql);
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-			preparedStatement.setString(1, channelDetails.getChannelName());
-			preparedStatement.setInt(2, channelDetails.getChannelPrice());
-			preparedStatement.setInt(3, channelDetails.getChannelId());
-			success = preparedStatement.executeUpdate();
-			LOG.info("SUCCESSFULLY UPDATED CHANNEL DETAILS INTO TABLE");
-
-		} catch (SQLException e) {
-			LOG.error("Db problem", e);
-		}
-		LOG.info("updateChannelDetails EXIT");
-		return success;
-
-	}
-
-	public int addChannelDetails(ChannelDetails channelDetails) {
-		LOG.info("addChannelDetails ENTRY");
-		Connection connection = JDBCConnection.getConnection();
-		int success = -1;
-		String sql = INSERT_CHANNEL_DETAILS_QUERY;
-		LOG.info("addChannelDetails sql : " + sql);
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-			preparedStatement.setInt(1, channelDetails.getChannelId());
-			preparedStatement.setString(2, channelDetails.getChannelName());
-			preparedStatement.setInt(3, channelDetails.getChannelPrice());
-			success = preparedStatement.executeUpdate();
-			LOG.info("SUCCESSFULLY INSERTED CHANNEL DETAILS INTO TABLE");
-		} catch (SQLException e) {
-			LOG.error("Db problem in saving Channel Details", e);
-		}
-		LOG.info("addChannelDetails EXIT");
-		return success;
-
-	}*/
 }

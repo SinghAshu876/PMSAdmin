@@ -52,21 +52,21 @@ public class NewEntryForm implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
-	private JFrame newEntryForm ;
+	private JFrame newEntryForm;
 	private JTextField slNOText;
-	private JTextField customerNameText ;
+	private JTextField customerNameText;
 	private JTextField qrNoText;
 	private JTextField streetText;
 	private JTextField sectorText;
 	private JTextField sectorText2;
 	private JTextField connectionChargeText;
-	private JTextField backDuesText ;
-	private JTextField feeText ;
+	private JTextField backDuesText;
+	private JTextField feeText;
 	private JTextField feeCodeText;
 	private JTextField mobNumberText;
 	private JTextField setTopBoxNumberText;
 	private JTextField cafNumberText;
-	private JXDatePicker picker ;
+	private JXDatePicker picker;
 	private List<JTextField> JTextFieldList = new ArrayList<JTextField>();
 	private int xCordinateOfLabel = 40;
 	private int xCordinateOfTextBox = 230;
@@ -74,9 +74,9 @@ public class NewEntryForm implements ApplicationConstants {
 	private String temp = "";
 	private JButton saveButton = null;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
-	
-	private Object classInstance ;
-	
+	private Object classInstance;
+	private List<ChannelDetails> selectedChannelsList;
+
 	public void init(JFrame parentFrame) {
 		LOG.info("init ENTRY");
 		classInstance = this;
@@ -334,7 +334,7 @@ public class NewEntryForm implements ApplicationConstants {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-			new DualListBoxJPanel(channelDetailsList,classInstance);			
+			new DualListBoxJPanel(channelDetailsList,null, classInstance);
 		}
 
 	}
@@ -365,6 +365,7 @@ public class NewEntryForm implements ApplicationConstants {
 			user.setCafNumber(cafNumberText.getText());
 			user.setBackDues(backDuesText.getText());
 			user.setDocValidate(picker.getEditor().getText());
+			user.setChannelsList(getSelectedChannels());
 			/** Validate */
 			UserValidator validator = new UserValidator();
 			HashMap<String, String> validatorHashMap = validator.validate(user);
@@ -397,7 +398,15 @@ public class NewEntryForm implements ApplicationConstants {
 		}
 
 	}
-	
+
+	public List<ChannelDetails> getSelectedChannels() {
+		return selectedChannelsList;
+	}
+
+	public void setSelectedChannels(List<ChannelDetails> selectedChannelsList) {
+		this.selectedChannelsList = selectedChannelsList;
+	}
+
 	public JTextField getFeeText() {
 		return feeText;
 	}
@@ -405,7 +414,7 @@ public class NewEntryForm implements ApplicationConstants {
 	public void setFeeText(JTextField feeText) {
 		this.feeText = feeText;
 	}
-	
+
 	public JFrame getFrame() {
 		return newEntryForm;
 	}
@@ -413,8 +422,5 @@ public class NewEntryForm implements ApplicationConstants {
 	public void setFrame(JFrame newEntryForm) {
 		this.newEntryForm = newEntryForm;
 	}
-
-	
-	
 
 }

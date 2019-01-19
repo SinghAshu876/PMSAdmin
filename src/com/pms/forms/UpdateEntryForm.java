@@ -89,6 +89,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 	private FeesServiceImpl feesServiceImpl = new FeesServiceImpl();
 	private String parentFrameName = null;
+	private List<ChannelDetails> selectedChannelsList;
 
 	private Integer getIncrementedValue(int height, boolean increase) {
 		if (increase) {
@@ -512,7 +513,8 @@ public class UpdateEntryForm implements ApplicationConstants {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-			new DualListBoxJPanel(channelDetailsList, classInstance);
+			List<ChannelDetails> selectedChannelsList = userServiceImpl.getSelectedChannelsOfUser(user.getId());
+			new DualListBoxJPanel(channelDetailsList,selectedChannelsList, classInstance);
 		}
 
 	}
@@ -656,6 +658,14 @@ public class UpdateEntryForm implements ApplicationConstants {
 
 	public void setFrame(JFrame updateEntryForm) {
 		this.updateEntryForm = updateEntryForm;
+	}
+	
+	public List<ChannelDetails> getSelectedChannels() {
+		return selectedChannelsList;
+	}
+
+	public void setSelectedChannels(List<ChannelDetails> selectedChannelsList) {
+		this.selectedChannelsList = selectedChannelsList;
 	}
 
 }

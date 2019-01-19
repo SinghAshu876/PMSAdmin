@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import com.pms.dao.ChannelDetailsDAO;
 import com.pms.dao.DisconnectReconnectDAO;
 import com.pms.dao.FeesHistoryDAO;
+import com.pms.dao.UserChannelDetailsDAO;
 import com.pms.dao.UserDAO;
 import com.pms.entity.ChannelDetails;
 import com.pms.entity.DisconnectReconnectDetails;
@@ -34,20 +35,29 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO = new UserDAO();
 	private DisconnectReconnectDAO disconnectReconnectDAO = new DisconnectReconnectDAO();
 	private FeesHistoryDAO feesHistoryDAO = new FeesHistoryDAO();
+	private UserChannelDetailsDAO userChannelDetailsDAO = new UserChannelDetailsDAO();
 	private ChannelDetailsDAO channelDetailsDAO = new ChannelDetailsDAO();
 
 	@Override
 	public int save(User user) {
+		int success = 1;
+		int failure = 0;
 		int suc1 = userDAO.save(user);
-		if (suc1 == 1) {
+		if (suc1 == success) {
 			int suc2 = feesHistoryDAO.save(user.getFeesHistory());
-			if (suc2 == 1) {
-				return 1;
+			if (suc2 == success) {
+				int suc3 = userChannelDetailsDAO.save(user);
+				if (suc3 == success) {
+					return success;
+				} else {
+					return failure;
+				}
+
 			} else {
-				return 0;
+				return failure;
 			}
 		} else {
-			return 0;
+			return failure;
 		}
 
 	}
@@ -248,7 +258,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<ChannelDetails> getChannelDetails() {		
+	public List<ChannelDetails> getChannelDetails() {
 		return channelDetailsDAO.getAllChannelDetails();
 	}
 
@@ -263,13 +273,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int addChannelDetails(ChannelDetails channelDetails) {		
+	public int addChannelDetails(ChannelDetails channelDetails) {
 		return channelDetailsDAO.addChannelDetails(channelDetails);
 	}
 
 	@Override
 	public int getNextChannelId() {
 		return channelDetailsDAO.getChannelId();
+	}
+
+	@Override
+	public List<ChannelDetails> getSelectedChannelsOfUser(int userId) {
+		//Integer[] channelIds = userChannelDetailsDAO.getSelectedChannelIdsOfUser(userId);
+		
+		return channelDetailsDAO.getSelectedChannelsOfUser(userId);
 	}
 
 }

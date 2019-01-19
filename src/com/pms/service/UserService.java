@@ -61,6 +61,8 @@ public interface UserService {
 	
 	public List<ChannelDetails> getChannelDetails();
 	
+	public List<ChannelDetails> getSelectedChannelsOfUser(int userId);
+	
 	public int updateChannelDetails(ChannelDetails channelDetails);
 	
 	public int deleteChannelDetails(int channelId);

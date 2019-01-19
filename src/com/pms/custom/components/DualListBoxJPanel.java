@@ -91,11 +91,14 @@ public class DualListBoxJPanel extends JPanel {
 		return parentFrame;
 	}
 
-	public DualListBoxJPanel(List<ChannelDetails> channelDetailsList, Object parentClassInstance) {
+	public DualListBoxJPanel(List<ChannelDetails> sourceElements,List<ChannelDetails> destinationElements, Object parentClassInstance) {
 		this.parentClassInstance = parentClassInstance;
 		initScreen();
-		addSourceElements(channelDetailsList);
-
+		addSourceElements(sourceElements);
+		if(destinationElements !=null) {
+			addDestinationElements(destinationElements);
+		}
+		
 	}
 
 	public String getSourceChoicesTitle() {
@@ -297,10 +300,15 @@ public class DualListBoxJPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			configureFeeFrame.setVisible(false);
 			getParentFrame().setVisible(true);
+
 			if (parentClassInstance instanceof NewEntryForm) {
-				((NewEntryForm) parentClassInstance).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				NewEntryForm newEntryForm = ((NewEntryForm) parentClassInstance);
+				newEntryForm.getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				newEntryForm.setSelectedChannels(destListModel.getAsList());
 			} else if (parentClassInstance instanceof UpdateEntryForm) {
-				((UpdateEntryForm) parentClassInstance).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				UpdateEntryForm updateEntryForm = ((UpdateEntryForm) parentClassInstance);
+				updateEntryForm.getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				updateEntryForm.setSelectedChannels(destListModel.getAsList());
 			}
 
 		}
