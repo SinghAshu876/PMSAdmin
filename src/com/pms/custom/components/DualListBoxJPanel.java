@@ -77,24 +77,22 @@ public class DualListBoxJPanel extends JPanel {
 
 	private int sumOfChannelsSelected = 0;
 
-	private JFrame parentFrame;
-	
-	private Object parentClassObject;
+	private Object parentClassInstance;
 
 	private JFrame configureFeeFrame;
 
 	public JFrame getParentFrame() {
+		JFrame parentFrame = null;
+		if (parentClassInstance instanceof NewEntryForm) {
+			parentFrame = ((NewEntryForm) parentClassInstance).getFrame();
+		} else if (parentClassInstance instanceof UpdateEntryForm) {
+			parentFrame = ((UpdateEntryForm) parentClassInstance).getFrame();
+		}
 		return parentFrame;
 	}
 
-	public DualListBoxJPanel(List<ChannelDetails> channelDetailsList, Object classObject) {
-		if(classObject instanceof NewEntryForm) {
-			this.parentFrame = ((NewEntryForm)classObject).getFrame();
-		}
-		else if (classObject instanceof UpdateEntryForm) {
-			this.parentFrame = ((UpdateEntryForm)classObject).getFrame();
-		}
-		this.parentClassObject = classObject;
+	public DualListBoxJPanel(List<ChannelDetails> channelDetailsList, Object parentClassInstance) {
+		this.parentClassInstance = parentClassInstance;
 		initScreen();
 		addSourceElements(channelDetailsList);
 
@@ -142,10 +140,6 @@ public class DualListBoxJPanel extends JPanel {
 		for (int i = 0; i < size; i++) {
 			model.add(newValues.getElementAt(i));
 		}
-	}
-
-	public void setParentFrame(JFrame parentFrame) {
-		this.parentFrame = parentFrame;
 	}
 
 	public void addSourceElements(List<ChannelDetails> newValues) {
@@ -303,11 +297,10 @@ public class DualListBoxJPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			configureFeeFrame.setVisible(false);
 			getParentFrame().setVisible(true);
-			if(parentClassObject instanceof NewEntryForm) {
-				((NewEntryForm) parentClassObject).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
-			}
-			else if (parentClassObject instanceof UpdateEntryForm) {
-				((UpdateEntryForm) parentClassObject).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+			if (parentClassInstance instanceof NewEntryForm) {
+				((NewEntryForm) parentClassInstance).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+			} else if (parentClassInstance instanceof UpdateEntryForm) {
+				((UpdateEntryForm) parentClassInstance).getFeeText().setText(String.valueOf(sumOfChannelsSelected));
 			}
 
 		}
