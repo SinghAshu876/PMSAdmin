@@ -62,7 +62,7 @@ public class PMSUtility implements ApplicationConstants {
 	}
 
 	public static java.sql.Date convertToSqlDate(java.util.Date date) {
-		if(date ==null){
+		if (date == null) {
 			return null;
 		}
 		return new java.sql.Date(date.getTime());
@@ -216,25 +216,37 @@ public class PMSUtility implements ApplicationConstants {
 
 	}
 
-	/*public static String findFeeCode(Object fee) {
-		String feeCode = "";
-		LOG.info("findFeeCode");
-		if (fee != null && fee instanceof Integer) {
-			String feeString = String.valueOf(fee);
-			for (int i = 0; i < feeString.length(); i++) {
-				Character c = feeString.charAt(i);
-				feeCode = feeCode + StaticCodes.codeMap.get(c);
-			}
-		} else if (fee != null && fee instanceof String) {
-			String feeString = (String) fee;
-			for (int i = 0; i < feeString.length(); i++) {
-				Character c = feeString.charAt(i);
-				feeCode = feeCode + StaticCodes.codeMap.get(c);
-			}
-		}
-		LOG.info("findFeeCode : " + feeCode);
-		return feeCode;
+	/*
+	 * public static String findFeeCode(Object fee) { String feeCode = "";
+	 * LOG.info("findFeeCode"); if (fee != null && fee instanceof Integer) { String
+	 * feeString = String.valueOf(fee); for (int i = 0; i < feeString.length(); i++)
+	 * { Character c = feeString.charAt(i); feeCode = feeCode +
+	 * StaticCodes.codeMap.get(c); } } else if (fee != null && fee instanceof
+	 * String) { String feeString = (String) fee; for (int i = 0; i <
+	 * feeString.length(); i++) { Character c = feeString.charAt(i); feeCode =
+	 * feeCode + StaticCodes.codeMap.get(c); } } LOG.info("findFeeCode : " +
+	 * feeCode); return feeCode;
+	 * 
+	 * }
+	 */
 
+	public static int calculateGST(int gstRate, int amount) {
+		double gstCalculatedRate = 0;
+		LOG.info("calculate GST for " + amount + " rate " + gstRate);
+		gstCalculatedRate = amount + ((amount * gstRate) / 100.0);
+		LOG.info("calculated GST for " + gstCalculatedRate);
+		int roundedToNearestInteger = (int) Math.round(gstCalculatedRate);
+		LOG.info("roundedToNearestInteger  " + roundedToNearestInteger);
+		return roundedToNearestInteger;
+	}
+
+	/*public static void main(String args[]) {
+		double gstCalculatedRate = 0;
+		int amount = 37;
+		int gstRate = 18;
+		gstCalculatedRate = amount + ((amount * gstRate) / 100.0);
+		int a = (int) Math.round(gstCalculatedRate);
+		System.out.println(a);
 	}*/
 
 	public static Date getPreviousMonthLastDate(Date date) {
@@ -280,12 +292,12 @@ public class PMSUtility implements ApplicationConstants {
 		return date;
 	}
 
-	public static float[] getColumnWidths4PDF(String[] headers , String fileName) {
+	public static float[] getColumnWidths4PDF(String[] headers, String fileName) {
 		float[] columnWidth = new float[headers.length];
-		if(fileName.equals(SETTOP_BOX_PDF)){
+		if (fileName.equals(SETTOP_BOX_PDF)) {
 			for (int i = 0; i < headers.length; i++) {
 				if (headers[i] == "ID") {
-					columnWidth[i] = 3f; 
+					columnWidth[i] = 3f;
 				}
 				if (headers[i] == "NAME") {
 					columnWidth[i] = 8f;
@@ -309,11 +321,10 @@ public class PMSUtility implements ApplicationConstants {
 					columnWidth[i] = 3f;
 				}
 			}
-		}
-		else if (fileName.equals(SIMPLE_PRINT_PDF)){
+		} else if (fileName.equals(SIMPLE_PRINT_PDF)) {
 			for (int i = 0; i < headers.length; i++) {
 				if (headers[i] == "ID") {
-					columnWidth[i] = 3f; 
+					columnWidth[i] = 3f;
 				}
 				if (headers[i] == "NAME") {
 					columnWidth[i] = 8f;
@@ -353,10 +364,10 @@ public class PMSUtility implements ApplicationConstants {
 				}
 
 			}
-		}else if (fileName.equals(MONTHLY_DETAILS_PDF)){
+		} else if (fileName.equals(MONTHLY_DETAILS_PDF)) {
 			for (int i = 0; i < headers.length; i++) {
 				if (headers[i] == "JAN") {
-					columnWidth[i] = 4f; 
+					columnWidth[i] = 4f;
 				}
 				if (headers[i] == "FEB") {
 					columnWidth[i] = 4f;
@@ -397,11 +408,11 @@ public class PMSUtility implements ApplicationConstants {
 
 			}
 		}
-		
-		else if (fileName.equals(YEARLY_REVENUE_PDF)){
+
+		else if (fileName.equals(YEARLY_REVENUE_PDF)) {
 			for (int i = 0; i < headers.length; i++) {
 				if (headers[i] == "JAN") {
-					columnWidth[i] = 7f; 
+					columnWidth[i] = 7f;
 				}
 				if (headers[i] == "FEB") {
 					columnWidth[i] = 7f;
@@ -442,7 +453,6 @@ public class PMSUtility implements ApplicationConstants {
 
 			}
 		}
-		
 
 		return columnWidth;
 

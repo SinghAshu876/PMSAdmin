@@ -27,6 +27,8 @@ import com.pms.entity.ChannelDetails;
 import com.pms.forms.NewEntryForm;
 import com.pms.forms.UpdateEntryForm;
 import com.pms.list.model.SortedListModel;
+import com.pms.service.impl.ApplicationPropsServiceImpl;
+import com.pms.util.PMSUtility;
 
 public class DualListBoxJPanel extends JPanel {
 
@@ -80,6 +82,8 @@ public class DualListBoxJPanel extends JPanel {
 	private Object parentClassInstance;
 
 	private JFrame configureFeeFrame;
+	
+	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	public JFrame getParentFrame() {
 		JFrame parentFrame = null;
@@ -303,14 +307,15 @@ public class DualListBoxJPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			configureFeeFrame.setVisible(false);
 			getParentFrame().setVisible(true);
-
+			int gstRate = Integer.valueOf(appProp.fetchProperty("GST"));
+			int gstCalculatedAmount = PMSUtility.calculateGST(gstRate, sumOfChannelsSelected);
 			if (parentClassInstance instanceof NewEntryForm) {
 				NewEntryForm newEntryForm = ((NewEntryForm) parentClassInstance);
-				newEntryForm.getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				newEntryForm.getFeeText().setText(String.valueOf(gstCalculatedAmount));
 				newEntryForm.setSelectedChannels(destListModel.getAsList());
 			} else if (parentClassInstance instanceof UpdateEntryForm) {
 				UpdateEntryForm updateEntryForm = ((UpdateEntryForm) parentClassInstance);
-				updateEntryForm.getFeeText().setText(String.valueOf(sumOfChannelsSelected));
+				updateEntryForm.getFeeText().setText(String.valueOf(gstCalculatedAmount));
 				updateEntryForm.setSelectedChannels(destListModel.getAsList());
 			}
 
