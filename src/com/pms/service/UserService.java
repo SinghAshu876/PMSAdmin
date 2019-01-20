@@ -59,7 +59,7 @@ public interface UserService {
 	
 	public List<User> getArchivedUsersList();
 	
-	public List<ChannelDetails> getChannelDetails();
+	public List<ChannelDetails> getAllChannelDetails();
 	
 	public List<ChannelDetails> getSelectedChannelsOfUser(int userId);
 	
@@ -70,4 +70,6 @@ public interface UserService {
 	public int addChannelDetails(ChannelDetails channelDetails);
 	
 	public int getNextChannelId();
+
+	public List<ChannelDetails> getUnSelectedChannelsOfUser(int userId);
 }

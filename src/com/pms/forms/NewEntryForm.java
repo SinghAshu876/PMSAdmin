@@ -333,7 +333,7 @@ public class NewEntryForm implements ApplicationConstants {
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
+			List<ChannelDetails> channelDetailsList = userServiceImpl.getAllChannelDetails();
 			new DualListBoxJPanel(channelDetailsList,null, classInstance);
 		}
 

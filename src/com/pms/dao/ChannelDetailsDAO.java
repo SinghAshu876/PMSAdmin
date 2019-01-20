@@ -130,7 +130,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		Connection connection = JDBCConnection.getConnection();
 		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
 
-		String sql = READ_CHANNEL_DETAILS_BY_CHANNELID_QUERY;
+		String sql = READ_SELECTED_CHANNEL_DETAILS_OF_USER_QUERY;
 		LOG.info("getSelectedChannelsOfUser sql : " + sql);
 		try (PreparedStatement pStmnt = connection.prepareStatement(sql)) {
 
@@ -153,5 +153,37 @@ public class ChannelDetailsDAO implements DBConstants {
 		LOG.info("getSelectedChannelsOfUser EXIT");
 		return channelDetailsList;
 
+	}
+
+	public List<ChannelDetails> getUnSelectedChannelsOfUser(int userId) {
+
+		LOG.info("getUnSelectedChannelsOfUser ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>();
+
+		String sql = READ_UNSELECTED_CHANNEL_DETAILS_OF_USER_QUERY;
+		LOG.info("getUnSelectedChannelsOfUser sql : " + sql);
+		try (PreparedStatement pStmnt = connection.prepareStatement(sql)) {
+
+			pStmnt.setInt(1, userId);
+
+			try (ResultSet rs = pStmnt.executeQuery()) {
+				while (rs.next()) {
+					ChannelDetails channelDetails = new ChannelDetails();
+					channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
+					channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
+					channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+
+					channelDetailsList.add(channelDetails);
+				}
+			}
+			LOG.info("No of channels Fetched " + channelDetailsList.size());
+		} catch (SQLException e) {
+			LOG.error("Db problem in getting unselected channels", e);
+		}
+		LOG.info("getUnSelectedChannelsOfUser EXIT");
+		return channelDetailsList;
+
+	
 	}
 }

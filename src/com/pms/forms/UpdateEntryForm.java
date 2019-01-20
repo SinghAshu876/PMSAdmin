@@ -512,9 +512,10 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private class ConfigureFeeButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			List<ChannelDetails> channelDetailsList = userServiceImpl.getChannelDetails();
-			List<ChannelDetails> selectedChannelsList = userServiceImpl.getSelectedChannelsOfUser(user.getId());
-			new DualListBoxJPanel(channelDetailsList,selectedChannelsList, classInstance);
+			int userId = user.getId();
+			List<ChannelDetails> unSelectedChannelsList = userServiceImpl.getUnSelectedChannelsOfUser(userId);
+			List<ChannelDetails> selectedChannelsList = userServiceImpl.getSelectedChannelsOfUser(userId);
+			new DualListBoxJPanel(unSelectedChannelsList,selectedChannelsList, classInstance);
 		}
 
 	}

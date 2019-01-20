@@ -275,7 +275,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private List<ChannelDetails> findAllChannels() {
 		LOG.info("find all channels");
 		List<ChannelDetails> channelDetailsList = new ArrayList<ChannelDetails>(0);
-		channelDetailsList = userServiceImpl.getChannelDetails();
+		channelDetailsList = userServiceImpl.getAllChannelDetails();
 
 		return channelDetailsList;
 	}

@@ -258,7 +258,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<ChannelDetails> getChannelDetails() {
+	public List<ChannelDetails> getAllChannelDetails() {
 		return channelDetailsDAO.getAllChannelDetails();
 	}
 
@@ -284,9 +284,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<ChannelDetails> getSelectedChannelsOfUser(int userId) {
-		//Integer[] channelIds = userChannelDetailsDAO.getSelectedChannelIdsOfUser(userId);
-		
 		return channelDetailsDAO.getSelectedChannelsOfUser(userId);
+	}
+	
+	@Override
+	public List<ChannelDetails> getUnSelectedChannelsOfUser(int userId) {
+		return channelDetailsDAO.getUnSelectedChannelsOfUser(userId);
 	}
 
 }
