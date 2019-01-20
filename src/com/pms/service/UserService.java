@@ -72,4 +72,5 @@ public interface UserService {
 	public int getNextChannelId();
 
 	public List<ChannelDetails> getUnSelectedChannelsOfUser(int userId);
+
 }

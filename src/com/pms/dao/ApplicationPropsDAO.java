@@ -33,4 +33,24 @@ public class ApplicationPropsDAO implements DBConstants{
 		return propValue;
 	}
 
+	public int updateProperty(String text) {
+		LOG.info("updateProperty ENTRY");
+		Connection connection = JDBCConnection.getConnection();
+		int success = 0;
+		String sql = UPDATE_APP_PROPS_QUERY;
+		LOG.info("update sql : " + sql);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setString(1, text);
+			preparedStatement.setString(2, "GST");
+			
+			success = preparedStatement.executeUpdate();
+			LOG.info("SUCCESSFULLY UPDATED PROPERTY INTO TABLE"+ success);
+
+		} catch (SQLException e) {
+			LOG.error("Db problem", e);
+		}
+		return success;
+	
+	}
+
 }

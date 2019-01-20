@@ -19,13 +19,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.pms.dao.ApplicationPropsDAO;
+import com.pms.service.impl.ApplicationPropsServiceImpl;
 
 public class PDFUtil implements ApplicationConstants {
 	
 	private Logger LOG = Logger.getLogger(getClass());
 	
-	private ApplicationPropsDAO  appProp = new ApplicationPropsDAO();
+	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	public boolean generatePDFFile(String[] headers, JTable jtable ,String fileName , String year, String month) {
 		LOG.info("generatePDF ENTRY");

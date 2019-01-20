@@ -20,13 +20,13 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 
-import com.pms.dao.ApplicationPropsDAO;
+import com.pms.service.impl.ApplicationPropsServiceImpl;
 
 public class EmailUtil implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 	
-	private ApplicationPropsDAO  appProp = new ApplicationPropsDAO();
+	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	public String sendMailWithAttachment() {
 		String msgStatus = "";

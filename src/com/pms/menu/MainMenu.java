@@ -13,13 +13,13 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 import com.pms.custom.components.ColoredJPanel;
-import com.pms.dao.ApplicationPropsDAO;
-import com.pms.forms.ChangeRateForm;
+import com.pms.forms.ChangeGSTRateForm;
 import com.pms.forms.CollectionForm;
 import com.pms.forms.MonthlyPaidForm;
 import com.pms.forms.NewEntryForm;
 import com.pms.forms.SearchForm;
 import com.pms.forms.UpdateEntryForm;
+import com.pms.service.impl.ApplicationPropsServiceImpl;
 import com.pms.table.ArchivedUsersTable;
 import com.pms.table.ConfigureChannelsTable;
 import com.pms.table.DisconnectedUsersTable;
@@ -39,7 +39,7 @@ public class MainMenu  implements ApplicationConstants {
 	private int xCordinateOfLabel = 550;
 	private int componentWidth = 200;
 	private Integer yValue = 50;
-	private ApplicationPropsDAO  appProp = new ApplicationPropsDAO();
+	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	private Integer getIncrementedValue(int height, boolean increase) {
 		if (increase) {
@@ -94,10 +94,15 @@ public class MainMenu  implements ApplicationConstants {
 		collectionButton.addActionListener(new CollectionButtonHandler());
 		panel.add(collectionButton);
 
-		JButton changeRate = new JButton("CHANGE RATE");
+		/*JButton changeRate = new JButton("CHANGE RATE");
 		changeRate.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
 		changeRate.addActionListener(new ChangeRateButtonHandler());
-		panel.add(changeRate);
+		panel.add(changeRate);*/
+		
+		JButton changeGSTRate = new JButton("CHANGE GST RATE");
+		changeGSTRate.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
+		changeGSTRate.addActionListener(new ChangeGSTRateButtonHandler());
+		panel.add(changeGSTRate);
 
 		JButton monthlyPaid = new JButton("MONTHLY PAID");
 		monthlyPaid.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
@@ -227,10 +232,19 @@ public class MainMenu  implements ApplicationConstants {
 		}
 	}
 
-	private class ChangeRateButtonHandler implements ActionListener {
+	/*private class ChangeRateButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new ChangeRateForm().init(mainMenuFrame);
+
+		}
+
+	}*/
+	
+	private class ChangeGSTRateButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new ChangeGSTRateForm().init(mainMenuFrame);
 
 		}
 

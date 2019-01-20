@@ -11,7 +11,11 @@ import org.apache.log4j.Logger;
 
 import com.pms.entity.ApplicationUsers;
 import com.pms.util.DBConstants;
-
+/**
+ * 
+ * @author ashutosh.tct@gmail.com
+ *
+ */
 public class ApplicationUsersDAO implements DBConstants{
 	
 	private  Logger LOG = Logger.getLogger(getClass());

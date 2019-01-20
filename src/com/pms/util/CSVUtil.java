@@ -7,7 +7,7 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
-import com.pms.dao.ApplicationPropsDAO;
+import com.pms.service.impl.ApplicationPropsServiceImpl;
 /**
  * 
  * @author ashutosh.tct@gmail.com
@@ -19,7 +19,7 @@ public class CSVUtil implements ApplicationConstants {
 
 	private static final int  COLUMN_COUNT = 7;	
 	
-	private ApplicationPropsDAO  appProp = new ApplicationPropsDAO();
+	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	public boolean generateCSVFile(JTable table, String fileName) {
 		boolean isSuccessfull = true;
