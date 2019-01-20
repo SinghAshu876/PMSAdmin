@@ -91,14 +91,17 @@ public class DualListBoxJPanel extends JPanel {
 		return parentFrame;
 	}
 
-	public DualListBoxJPanel(List<ChannelDetails> sourceElements,List<ChannelDetails> destinationElements, Object parentClassInstance) {
+	public DualListBoxJPanel(List<ChannelDetails> sourceElements, List<ChannelDetails> destinationElements,
+			Object parentClassInstance) {
 		this.parentClassInstance = parentClassInstance;
 		initScreen();
 		addSourceElements(sourceElements);
-		if(destinationElements !=null) {
+		if (destinationElements != null) {
 			addDestinationElements(destinationElements);
+			addFees(destinationElements);
+			feeText.setText(String.valueOf(sumOfChannelsSelected));
 		}
-		
+
 	}
 
 	public String getSourceChoicesTitle() {
@@ -327,9 +330,7 @@ public class DualListBoxJPanel extends JPanel {
 			List<ChannelDetails> selected = sourceList.getSelectedValuesList();
 			addDestinationElements(selected);
 			clearSourceSelected();
-			for (ChannelDetails channelDetails : selected) {
-				sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice();
-			}
+			addFees(selected);
 			feeText.setText(String.valueOf(sumOfChannelsSelected));
 
 		}
@@ -340,20 +341,24 @@ public class DualListBoxJPanel extends JPanel {
 			List<ChannelDetails> selected = destList.getSelectedValuesList();
 			addSourceElements(selected);
 			clearDestinationSelected();
-			for (ChannelDetails channelDetails : selected) {
-				sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice();
-			}
+			subtractFees(selected);
 			feeText.setText(String.valueOf(sumOfChannelsSelected));
 
 		}
 	}
 
-	public int getSumOfChannelsSelected() {
+	public int addFees(List<ChannelDetails> channelList) {
+		for (ChannelDetails channelDetails : channelList) {
+			sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice();
+		}
 		return sumOfChannelsSelected;
 	}
 
-	public void setSumOfChannelsSelected(int sumOfChannelsSelected) {
-		this.sumOfChannelsSelected = sumOfChannelsSelected;
+	public int subtractFees(List<ChannelDetails> channelList) {
+		for (ChannelDetails channelDetails : channelList) {
+			sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice();
+		}
+		return sumOfChannelsSelected;
 	}
 
 	/*

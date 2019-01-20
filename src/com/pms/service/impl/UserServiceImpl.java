@@ -173,8 +173,8 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * if existing value of fees is same which is entered by user , no need to
-	 * update else if when user tried to update the fees and date of connection,year
-	 * = updation month,year then update only fees else update existing date to
+	 * update else if when user tried to update the fees and (date of connection,year
+	 * = updation month,year ) then update only fees else update existing date to
 	 * previous month last date and insert a new row from first of the current month
 	 */
 	@Override
