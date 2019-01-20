@@ -29,6 +29,7 @@ public class UserDAO implements DBConstants{
 	private FeesHistoryDAO feesHistoryDAO = new FeesHistoryDAO();
 	private DisconnectReconnectDAO disconnectReconnectDAO = new DisconnectReconnectDAO();
 	private AllFeesDetailsDAO allFeesDetailsDAO = new AllFeesDetailsDAO();
+	private UserChannelDetailsDAO userChannelDetailsDAO = new UserChannelDetailsDAO();
 
 	public int save(User user) {
 		LOG.info("save ENTRY");
@@ -162,6 +163,7 @@ public class UserDAO implements DBConstants{
 			disconnectReconnectDAO.delete(id);
 			allFeesDetailsDAO.delete(id);
 			feesHistoryDAO.delete(id);
+			userChannelDetailsDAO.delete(id);
 			success = preparedStatement.executeUpdate();
 			LOG.info("successfully deleted user data from table");
 		} catch (SQLException e) {

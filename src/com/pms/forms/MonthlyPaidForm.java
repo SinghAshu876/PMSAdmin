@@ -1,7 +1,7 @@
 package com.pms.forms;
 
 import static com.pms.util.PMSUtility.convertToSqlDate;
-import static com.pms.util.PMSUtility.findFeeCode;
+//import static com.pms.util.PMSUtility.findFeeCode;
 import static com.pms.util.PMSUtility.getMonth;
 import static com.pms.util.PMSUtility.getMonthYearValue;
 import static com.pms.util.PMSUtility.getYear;
@@ -77,7 +77,7 @@ public class MonthlyPaidForm implements ApplicationConstants {
 	private JButton saveMonthlyFeesButton = null;
 	private JButton monthlyFeesReportButton = null;
 	private JXDatePicker picker = null;
-	private JTextField feeCodeText = null;
+	//private JTextField feeCodeText = null;
 	private int headerFooterWidth = 170;
 	private int xCordinateOfLabel = 20;
 	private int xCordinateOfTextBox = 200;
@@ -365,14 +365,14 @@ public class MonthlyPaidForm implements ApplicationConstants {
 		backDuesText.setDisabledTextColor(Color.BLACK);
 		panel.add(backDuesText);
 
-		JLabel feeCodeLabel = new JLabel("FEE CODE:");
+		/*JLabel feeCodeLabel = new JLabel("FEE CODE:");
 		feeCodeLabel.setBounds(xCordinateOfRHSLabel, getIncrementedValue4RHS(yValue4RHS, true), rhsComponentWidth, COMPONENT_HEIGHT);
 		panel.add(feeCodeLabel);
 
 		feeCodeText = new PMSJTextField(20);
 		feeCodeText.setEditable(false);
 		feeCodeText.setBounds(xCordinateOfRHSComponent, getIncrementedValue4RHS(yValue4RHS, false), rhsComponentWidth, COMPONENT_HEIGHT);
-		panel.add(feeCodeText);
+		panel.add(feeCodeText);*/
 
 		JLabel discount = new JLabel("DISCOUNT:");
 		discount.setBounds(xCordinateOfRHSLabel, getIncrementedValue4RHS(yValue4RHS, true), componentWidth, COMPONENT_HEIGHT);
@@ -718,8 +718,8 @@ public class MonthlyPaidForm implements ApplicationConstants {
 		mobNumberText.setText(user.getMobileNumber());
 		picker.setDate(user.getDoc());
 		postingDatePicker.setDate(today);
-		String feeCode = findFeeCode(user.getFeesHistory().getFees());
-		feeCodeText.setText(feeCode);
+		//String feeCode = findFeeCode(user.getFeesHistory().getFees());
+		//feeCodeText.setText(feeCode);
 		Calendar calendar = postingDatePicker.getMonthView().getCalendar();
 		calendar.setTime(new Date(user.getDoc().getTime()));
 		postingDatePicker.getMonthView().setLowerBound(calendar.getTime());

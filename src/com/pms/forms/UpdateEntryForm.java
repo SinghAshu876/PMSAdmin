@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+//import java.awt.event.KeyEvent;
+//import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+//import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -36,7 +36,7 @@ import com.pms.entity.DisconnectReconnectDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
 import com.pms.enums.util.ActiveStatus;
-import com.pms.enums.util.StaticCodes;
+//import com.pms.enums.util.StaticCodes;
 import com.pms.service.impl.FeesServiceImpl;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.util.ApplicationConstants;
@@ -72,7 +72,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private JXDatePicker picker;
 	private JLabel disconnectLabel;
 	private JLabel reconnectLabel;
-	private JTextField feeCodeText;
+	//private JTextField feeCodeText;
 	private JXDatePicker disconnectDatePicker;
 	private JXDatePicker reconnectDatePicker;
 	private JButton reconnectButton;
@@ -80,7 +80,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 	private int xCordinateOfTextBox = 200;
 	private int componentWidth = 190;
 	private int rhsComponentWidth = 170;
-	private String temp = "";
+	//private String temp = "";
 	private int id;
 	private JPanel panel = new ColoredJPanel();
 	private User user;
@@ -269,7 +269,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
 		feeText.setText(String.valueOf(user.getFeesHistory().getFees()));
 		((AbstractDocument) feeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
-		feeText.addKeyListener(new KeyListener() {
+		/*feeText.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -297,10 +297,10 @@ public class UpdateEntryForm implements ApplicationConstants {
 				}
 
 			}
-		});
+		});*/
 		panel.add(feeText);
 
-		JLabel feeCodeLabel = new JLabel("FEE CODE:");
+		/*JLabel feeCodeLabel = new JLabel("FEE CODE:");
 		feeCodeLabel.setBounds(260, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		panel.add(feeCodeLabel);
 
@@ -310,7 +310,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 		String feeCode = PMSUtility.findFeeCode(user.getFeesHistory().getFees());
 		feeCodeText.setText(feeCode);
 		temp = feeCode;
-		panel.add(feeCodeText);
+		panel.add(feeCodeText);*/
 
 		JButton configureFeeButton = new JButton("CONFIGURE FEE");
 		configureFeeButton.setBounds(400, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);

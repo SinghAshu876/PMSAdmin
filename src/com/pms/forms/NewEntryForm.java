@@ -5,14 +5,14 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+//import java.awt.event.KeyEvent;
+//import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+//import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -36,7 +36,7 @@ import com.pms.document.filters.UppercaseDocumentFilter;
 import com.pms.entity.ChannelDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
-import com.pms.enums.util.StaticCodes;
+//import com.pms.enums.util.StaticCodes;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
@@ -62,7 +62,7 @@ public class NewEntryForm implements ApplicationConstants {
 	private JTextField connectionChargeText;
 	private JTextField backDuesText;
 	private JTextField feeText;
-	private JTextField feeCodeText;
+	//private JTextField feeCodeText;
 	private JTextField mobNumberText;
 	private JTextField setTopBoxNumberText;
 	private JTextField cafNumberText;
@@ -71,7 +71,7 @@ public class NewEntryForm implements ApplicationConstants {
 	private int xCordinateOfLabel = 40;
 	private int xCordinateOfTextBox = 230;
 	private int componentWidth = 210;
-	private String temp = "";
+	//private String temp = "";
 	private JButton saveButton = null;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 	private Object classInstance;
@@ -210,7 +210,7 @@ public class NewEntryForm implements ApplicationConstants {
 
 		feeText = new PMSJTextField(20);
 		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
-		feeText.addKeyListener(new KeyListener() {
+        /*		feeText.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -238,13 +238,13 @@ public class NewEntryForm implements ApplicationConstants {
 				}
 
 			}
-		});
+		});*/
 
 		JTextFieldList.add(feeText);
 		((AbstractDocument) feeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		panel.add(feeText);
 
-		JLabel feeCodeLabel = new JLabel("FEE CODE:");
+		/*JLabel feeCodeLabel = new JLabel("FEE CODE:");
 		feeCodeLabel.setBounds(300, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		panel.add(feeCodeLabel);
 
@@ -252,7 +252,7 @@ public class NewEntryForm implements ApplicationConstants {
 		feeCodeText.setEditable(false);
 		feeCodeText.setBounds(380, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
 		JTextFieldList.add(feeCodeText);
-		panel.add(feeCodeText);
+		panel.add(feeCodeText);*/
 
 		JButton configureFeeButton = new JButton("CONFIGURE FEE");
 		configureFeeButton.setBounds(450, getIncrementedValue(yValue, false), 150, COMPONENT_HEIGHT);
@@ -377,7 +377,7 @@ public class NewEntryForm implements ApplicationConstants {
 						tf.setText(EMPTY_STRING);
 					}
 					slNOText.setText(userServiceImpl.getMaxSequence());
-					temp = EMPTY_STRING;
+					//temp = EMPTY_STRING;
 				} else {
 					JOptionPane.showMessageDialog(null, "PROBLEM SAVING USER ENTRY");
 				}

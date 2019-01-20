@@ -4,10 +4,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+//import java.awt.event.KeyEvent;
+//import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+//import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import com.pms.custom.components.ColoredJPanel;
 import com.pms.custom.components.PMSJTextField;
 import com.pms.document.filters.NumberTextFieldDocumentFilter;
-import com.pms.enums.util.StaticCodes;
+//import com.pms.enums.util.StaticCodes;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
@@ -44,8 +44,8 @@ public class ChangeRateForm implements ApplicationConstants {
 	private Integer yValue = 50;
 	private JPanel panel = null;
 	private JTextField feeText = null;
-	private JTextField feeCodeText = null;
-	private String temp = "";
+	//private JTextField feeCodeText = null;
+	//private String temp = "";
 	private JButton updateAll = null;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 
@@ -86,7 +86,7 @@ public class ChangeRateForm implements ApplicationConstants {
 
 		feeText = new PMSJTextField(20);
 		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
-		feeText.addKeyListener(new KeyListener() {
+/*		feeText.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -114,19 +114,19 @@ public class ChangeRateForm implements ApplicationConstants {
 				}
 
 			}
-		});
+		});*/
 
 		((AbstractDocument) feeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		panel.add(feeText);
 
-		JLabel feeCodeLabel = new JLabel("FEE CODE:");
+		/*JLabel feeCodeLabel = new JLabel("FEE CODE:");
 		feeCodeLabel.setBounds(180, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		panel.add(feeCodeLabel);
 
 		feeCodeText = new PMSJTextField(20);
 		feeCodeText.setEditable(false);
 		feeCodeText.setBounds(270, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
-		panel.add(feeCodeText);
+		panel.add(feeCodeText);*/
 
 		updateAll = new JButton("UPDATE ALL");
 		updateAll.setBounds(350, getIncrementedValue(yValue, false), 140, COMPONENT_HEIGHT);

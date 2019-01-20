@@ -216,7 +216,7 @@ public class PMSUtility implements ApplicationConstants {
 
 	}
 
-	public static String findFeeCode(Object fee) {
+	/*public static String findFeeCode(Object fee) {
 		String feeCode = "";
 		LOG.info("findFeeCode");
 		if (fee != null && fee instanceof Integer) {
@@ -235,7 +235,7 @@ public class PMSUtility implements ApplicationConstants {
 		LOG.info("findFeeCode : " + feeCode);
 		return feeCode;
 
-	}
+	}*/
 
 	public static Date getPreviousMonthLastDate(Date date) {
 		LOG.info("getPreviousMonthLastDate : ENTRY" + date);

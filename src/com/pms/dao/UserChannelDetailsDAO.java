@@ -75,4 +75,23 @@ public class UserChannelDetailsDAO implements DBConstants {
 		return channelIdArray;
 	}
 
+	public Integer delete(Integer id) {
+
+		LOG.info("delete ENTRY");
+		Integer returnValue = 0;
+		Connection connection = JDBCConnection.getConnection();
+		String sql = DELETE_USER_CHANNEL_DETAILS_QUERY;
+		LOG.info("delete sql :" + sql);
+		try (PreparedStatement pStmnt = connection.prepareStatement(sql);) {
+			pStmnt.setInt(1, id);
+			returnValue = pStmnt.executeUpdate();
+			LOG.info("SUCCESSFULLY DELETED USER_CHANNEL_DETAILS ");
+		} catch (Exception e) {
+			LOG.error("DB Problem in delete", e);
+		}
+		LOG.info("delete EXIT");
+		return returnValue;
+
+	}
+
 }

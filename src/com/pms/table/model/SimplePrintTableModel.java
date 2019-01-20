@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.pms.entity.User;
-import com.pms.util.PMSUtility;
+//import com.pms.util.PMSUtility;
 
 /**
  * 
@@ -112,7 +112,9 @@ public class SimplePrintTableModel extends AbstractTableModel {
 			value = user.getMobileNumber();
 			break;
 		case 8:
-			value = PMSUtility.findFeeCode((null != user.getFeesHistory() && null != user.getFeesHistory().getFees())?user.getFeesHistory().getFees():"-");
+			//value = PMSUtility.findFeeCode((null != user.getFeesHistory() && null != user.getFeesHistory().getFees())?user.getFeesHistory().getFees():"-");
+			value = ((null != user.getFeesHistory() && null != user.getFeesHistory().getFees())?user.getFeesHistory().getFees():"-");
+
 			break;
 		case 9:
 			value = Integer.valueOf(null != user.getBackDues() ? user.getBackDues() : "0")-((null != user.getFeesHistory() && null != user.getFeesHistory().getFees())? user.getFeesHistory().getFees() : 0);

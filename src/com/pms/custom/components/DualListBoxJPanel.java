@@ -239,7 +239,7 @@ public class DualListBoxJPanel extends JPanel {
 	private void initScreen() {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		configureFeeFrame = new JFrame("CONFIGURE-FEE-FRAME");
+		configureFeeFrame = new JFrame("CONFIGURE FEE");
 		configureFeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		configureFeeFrame.setResizable(false);
 		configureFeeFrame.setVisible(true);
