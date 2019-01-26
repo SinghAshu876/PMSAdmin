@@ -333,7 +333,7 @@ public class MonthlyPaidForm implements ApplicationConstants {
 		cafNumberText.setDisabledTextColor(Color.BLACK);
 		panel.add(cafNumberText);
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(400, getIncrementedValue(yValue, true), headerFooterWidth, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

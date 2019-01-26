@@ -17,7 +17,7 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	private List<ChannelDetails> channelDetailsList;
-	private static final Class<?>[] COLUMN_TYPES = new Class<?>[] { String.class, String.class, String.class};
+	private static final Class<?>[] COLUMN_TYPES = new Class<?>[] { String.class, String.class, String.class, String.class};
 
 	@Override
 	public String getColumnName(int column) {
@@ -31,6 +31,9 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 			break;
 		case 2:
 			name = "CHANNEL PRICE";
+			break;
+		case 3:
+			name = "CHANNEL TYPE";
 			break;
 		}
 		return name;
@@ -47,7 +50,7 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -68,6 +71,9 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 			break;
 		case 2:
 			value = channelDetails.getChannelPrice();
+			break;
+		case 3:
+			value = channelDetails.getChannelType();
 			break;
 		}
 		return value;

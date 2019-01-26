@@ -31,13 +31,15 @@ public class ChangeGSTRateForm implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
-	private JFrame changeGSTRateForm = null;
+	private JFrame changeGSTRateForm ;
 	private int xCordinateOfLabel = 40;
 	private int xCordinateOfTextBox = 100;
 	private Integer yValue = 50;
-	private JPanel panel = null;
-	private JTextField gstText = null;
-	private JButton updateButton = null;
+	private JPanel panel ;
+	private JTextField gstText ;
+	private JTextField ncfText ;
+	private JButton updateGSTButton;
+	private JButton updateNCFButton; 
 	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
 	private Integer getIncrementedValue(int height, boolean increase) {
@@ -51,7 +53,7 @@ public class ChangeGSTRateForm implements ApplicationConstants {
 	public void init(JFrame parentFrame) {
 		LOG.info("init ENTRY");
 		parentFrame.setVisible(false);
-		changeGSTRateForm = new JFrame("CHANGE GST RATE");
+		changeGSTRateForm = new JFrame("CHANGE GLOBAL RATE");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		changeGSTRateForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		changeGSTRateForm.setSize(screenSize);
@@ -63,7 +65,7 @@ public class ChangeGSTRateForm implements ApplicationConstants {
 		panel = new ColoredJPanel();
 		changeGSTRateForm.add(panel);
 		placeComponents(panel);
-		changeGSTRateForm.getRootPane().setDefaultButton(updateButton);
+		changeGSTRateForm.getRootPane().setDefaultButton(updateGSTButton);
 		Container.frameContainer.put("CHANGE-GST-RATE-FRAME", changeGSTRateForm);
 		LOG.info("init EXIT");
 
@@ -71,23 +73,40 @@ public class ChangeGSTRateForm implements ApplicationConstants {
 
 	private void placeComponents(JPanel panel) {
 		LOG.info("placeComponents ENTRY");
-		JLabel totalAmnt = new JLabel("GST :");
-		totalAmnt.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, false), 300, 20);
-		panel.add(totalAmnt);
+		JLabel gstPercent = new JLabel("GST :");
+		gstPercent.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, false), 300, 20);
+		panel.add(gstPercent);
 
 		gstText = new PMSJTextField(20);
 		gstText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
-		gstText.setText(appProp.fetchProperty("GST"));
+		gstText.setText(appProp.fetchProperty(GST));
 
 		((AbstractDocument) gstText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		panel.add(gstText);
 
-		updateButton = new JButton("UPDATE");
-		updateButton.setBounds(180, getIncrementedValue(yValue, false), 140, COMPONENT_HEIGHT);
-		updateButton.addActionListener(new UpdateButtonHandler());
-		panel.add(updateButton);
+		updateGSTButton = new JButton("UPDATE GST");
+		updateGSTButton.setBounds(180, getIncrementedValue(yValue, false), 140, COMPONENT_HEIGHT);
+		updateGSTButton.addActionListener(new UpdateGSTButtonHandler());
+		panel.add(updateGSTButton);
+		
+		JLabel ncfAmount = new JLabel("NCF :");
+		ncfAmount.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), 300, 20);
+		panel.add(ncfAmount);
 
-		JButton backButton = new JButton("BACK");
+		ncfText = new PMSJTextField(20);
+		ncfText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
+		ncfText.setText(appProp.fetchProperty(NCF));
+
+		((AbstractDocument) ncfText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
+		panel.add(ncfText);
+
+		updateNCFButton = new JButton("UPDATE NCF");
+		updateNCFButton.setBounds(180, getIncrementedValue(yValue, false), 140, COMPONENT_HEIGHT);
+		updateNCFButton.addActionListener(new UpdateNCFButtonHandler());
+		panel.add(updateNCFButton);
+		
+
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(340, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);
@@ -105,17 +124,40 @@ public class ChangeGSTRateForm implements ApplicationConstants {
 		}
 
 	}
-
-	private class UpdateButtonHandler implements ActionListener {
+	
+	private class UpdateNCFButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			LOG.info("UpdateAllButtonHandler ENTRY");
+			LOG.info("UpdateNCFButtonHandler ENTRY");
+			String gst = ncfText.getText();
+			if (gst.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "ENTER A VALUE IN MCF !");
+				return;
+			}
+			int success = appProp.updateProperty(ncfText.getText() ,NCF);
+
+			if (success == 1) {
+				JOptionPane.showMessageDialog(null, "UPDATED NCF !");
+				return;
+			} else {
+				JOptionPane.showMessageDialog(null, "PROBLEM SAVING NCF");
+				return;
+			}
+		}
+
+	}
+	
+
+	private class UpdateGSTButtonHandler implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LOG.info("UpdateGSTButtonHandler ENTRY");
 			String gst = gstText.getText();
 			if (gst.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "ENTER A VALUE IN GST !");
 				return;
 			}
-			int success = appProp.updateProperty(gstText.getText());
+			int success = appProp.updateProperty(gstText.getText(),GST);
 
 			if (success == 1) {
 				JOptionPane.showMessageDialog(null, "UPDATED GST !");

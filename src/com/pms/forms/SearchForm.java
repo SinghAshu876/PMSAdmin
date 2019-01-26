@@ -144,7 +144,7 @@ public class SearchForm implements ApplicationConstants {
 		clearButton.addActionListener(new ClearButtonHandler());
 		panel.add(clearButton);
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(310, getIncrementedValue(yValue, false), 100, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

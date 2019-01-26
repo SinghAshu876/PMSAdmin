@@ -29,8 +29,11 @@ public interface ApplicationConstants {
 	String BASTI                    = "BASTI";
 	String DEV_BASTI                = "DEVELOPMENT-BASTI";
 	String PAGE_NO                  = "PAGE NO -";
+	String HD						= "HD";
+	String SD						= "SD";
 	
 	String [] ENV                   = {EMPTY_STRING,ALKA,BASTI/*,DEV,DEV_BASTI*/};
+ 	String [] CHANNEL_TYPE          = {EMPTY_STRING,HD,SD};
 
 	String PDF_SETTOP_BOX_HEADER [] 		= {"ID","NAME","CAFNO","SMART CARD NO","MOBILE", "QTR", "STR"};
 	String PDF_SIMPLE_PRINT_HEADER []      	= {"NAME","CAFNO","SET TOP BOX","SEC","ID","STR","QTR","MOBILE","FEE","DUES","TOTAL","PAID","DUES"};
@@ -60,12 +63,20 @@ public interface ApplicationConstants {
 	String USERNAME                 = "USERNAME";
 	String PASSWORD                 = "PASSWORD";
 	String SECOND_FACTOR_AUTH       = "2ND_FACTOR_AUTH";
+	String NCF						= "NCF";
+	String GST						= "GST";
 
 	
 	/**BUTTON TEXTS UI*/
 	String BACK                     = "BACK"; 
 	String GENERATE_PDF             = "GENERATE PDF"; 
-	String GENERATE_CSV             = "GENERATE CSV"; 
+	String GENERATE_CSV             = "GENERATE CSV";
+	String ADD_BUTTON_LABEL 		= "ADD CHANNEL >>";
+	String REMOVE_BUTTON_LABEL 		= "<< REMOVE CHANNEL";
+	String CONFIRM_BUTTON_LABEL 	= "CONFIRM FEES FOR SELECTED CHANNELS ";
+	String DEFAULT_SOURCE_CHOICE_LABEL = "AVAILABLE CHANNELS:";
+	String DEFAULT_DEST_CHOICE_LABEL= "SELECTED CHANNELS:";
+	String TOTAL_FEES_LABEL         = "TOTAL FEES FOR SELECTED CHANNELS:";
 
 	String PORT		                = "PORT";
 	String USER                		= "USER";

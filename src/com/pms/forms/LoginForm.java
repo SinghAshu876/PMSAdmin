@@ -30,14 +30,14 @@ import com.pms.util.PropertyUtil;
 
 public class LoginForm implements ApplicationConstants {
 
-	private JFrame loginForm = null;
-	private JTextField userNameText = null;
-	private JPasswordField passwordText = null;
+	private JFrame loginForm ;
+	private JTextField userNameText ;
+	private JPasswordField passwordText ;
 	private int xCordinateOfLabel = 40;
 	private int xCordinateOfTextBox = 230;
 	private int componentWidth = 210;
-	private JButton loginButton = null;
-	private String applicationComboBoxValue = null;
+	private JButton loginButton ;
+	private String applicationComboBoxValue ;
 
 	public void init() {
 		loginForm = new JFrame("LOGIN FORM");
@@ -90,7 +90,7 @@ public class LoginForm implements ApplicationConstants {
 
 		JComboBox<String> application = new JComboBox<String>();
 		application.setEditable(false);
-		String[] env = ApplicationConstants.ENV;
+		String[] env = ENV;
 		for (int i = 0; i < env.length; i++) {
 			application.addItem(env[i]);
 		}

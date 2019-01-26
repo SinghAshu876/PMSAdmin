@@ -361,7 +361,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 		deleteButton.addActionListener(new DeleteButtonHandler());
 		panel.add(deleteButton);
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(520, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

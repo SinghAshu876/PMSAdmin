@@ -200,7 +200,7 @@ public class CollectionForm implements ApplicationConstants {
 
 
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(550, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

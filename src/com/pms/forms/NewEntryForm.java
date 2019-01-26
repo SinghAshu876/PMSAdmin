@@ -304,7 +304,7 @@ public class NewEntryForm implements ApplicationConstants {
 		clearButton.addActionListener(new ClearButtonHandler());
 		panel.add(clearButton);
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(290, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

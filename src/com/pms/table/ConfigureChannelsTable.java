@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,6 +45,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private JTable table ;
 	public JFrame configureChannelsFrame;
 	private int componentWidth = 210;
+	private int xCordinateOfTextBox = 120;
 	private UserServiceImpl userServiceImpl = new UserServiceImpl();
 	private JTextField channelIdText = new PMSJTextField();
 	private JTextField channelNameText = new PMSJTextField();
@@ -51,6 +53,8 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private JButton addButton ;
 	private JButton updateButton ;
 	private JButton deleteButton ;
+	private String channelTypeComboBoxValue ;
+	private JComboBox<String> channelTypeComboBox;
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
@@ -88,23 +92,46 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		JLabel channelPriceLabel = new JLabel("CHANNEL PRICE :");
 		channelPriceLabel.setBounds(10, 480, 100, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(channelPriceLabel);
+		
+		JLabel channelTypeLabel = new JLabel("CHANNEL TYPE :");
+		channelTypeLabel.setBounds(10, 520, 100, COMPONENT_HEIGHT);
+		configureChannelsFrame.add(channelTypeLabel);
 
 		channelIdText = new PMSJTextField(20);
-		channelIdText.setBounds(120, 400, componentWidth, COMPONENT_HEIGHT);
+		channelIdText.setBounds(xCordinateOfTextBox, 400, componentWidth, COMPONENT_HEIGHT);
 		channelIdText.setDisabledTextColor(Color.BLACK);
 		channelIdText.setEnabled(false);
 		channelIdText.setEditable(false);
 		configureChannelsFrame.add(channelIdText);
 
 		channelNameText = new PMSJTextField();
-		channelNameText.setBounds(120, 440, componentWidth, COMPONENT_HEIGHT);
+		channelNameText.setBounds(xCordinateOfTextBox, 440, componentWidth, COMPONENT_HEIGHT);
 		((AbstractDocument) channelNameText.getDocument()).setDocumentFilter(new UpperCaseWithLimitDocumentFilter(30));
 		configureChannelsFrame.add(channelNameText);
 
 		channelPriceText = new PMSJTextField();
-		channelPriceText.setBounds(120, 480, componentWidth, COMPONENT_HEIGHT);
+		channelPriceText.setBounds(xCordinateOfTextBox, 480, componentWidth, COMPONENT_HEIGHT);
 		((AbstractDocument) channelPriceText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		configureChannelsFrame.add(channelPriceText);
+		
+		channelTypeComboBox = new JComboBox<String>();
+		channelTypeComboBox.setEditable(false);
+		String[] channelType = CHANNEL_TYPE;
+		for (int i = 0; i < channelType.length; i++) {
+			channelTypeComboBox.addItem(channelType[i]);
+		}
+
+		channelTypeComboBox.setBounds(xCordinateOfTextBox, 520, componentWidth, COMPONENT_HEIGHT);
+		channelTypeComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("rawtypes")
+				JComboBox source = (JComboBox) e.getSource();
+				channelTypeComboBoxValue = (String) source.getSelectedItem();
+				
+			}
+		});
+		configureChannelsFrame.add(channelTypeComboBox);
 
 		addButton = new JButton("ADD CHANNEL");
 		addButton.setBounds(400, 400, componentWidth, COMPONENT_HEIGHT);
@@ -139,6 +166,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			channelIdText.setText(table.getValueAt(i, 0).toString());
 			channelNameText.setText(table.getValueAt(i, 1).toString());
 			channelPriceText.setText(table.getValueAt(i, 2).toString());
+			channelTypeComboBox.setSelectedItem(table.getValueAt(i, 3).toString());
 			addButton.setEnabled(false);
 			updateButton.setEnabled(true);
 			deleteButton.setEnabled(true);
@@ -200,6 +228,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
+			channelDetails.setChannelType(channelTypeComboBoxValue == null ?SD :channelTypeComboBoxValue);
 
 			int response = addChannel(channelDetails);
 			LOG.info("response " + response);
@@ -237,6 +266,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
+			channelDetails.setChannelType(channelTypeComboBoxValue == null ?SD :channelTypeComboBoxValue);
 			int response = updateChannel(channelDetails);
 			LOG.info("response " + response);
 			if (response == -1) {

@@ -133,7 +133,7 @@ public class ChangeRateForm implements ApplicationConstants {
 		updateAll.addActionListener(new UpdateAllButtonHandler());
 		panel.add(updateAll);
 
-		JButton backButton = new JButton("BACK");
+		JButton backButton = new JButton(BACK);
 		backButton.setBounds(500, getIncrementedValue(yValue, false), 80, COMPONENT_HEIGHT);
 		backButton.addActionListener(new BackButtonHandler());
 		panel.add(backButton);

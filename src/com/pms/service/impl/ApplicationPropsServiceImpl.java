@@ -12,9 +12,9 @@ public class ApplicationPropsServiceImpl implements ApplicationPropsService {
 	private ApplicationPropsDAO  appProp = new ApplicationPropsDAO();
 
 	@Override
-	public int updateProperty(String text) {
-		LOG.info("updateProperty");
-		return appProp.updateProperty(text);
+	public int updateProperty(String text , String key) {
+		LOG.info("updateProperty for key " +key);
+		return appProp.updateProperty(text,key);
 	}
 
 	@Override

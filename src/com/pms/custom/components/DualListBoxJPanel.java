@@ -28,30 +28,14 @@ import com.pms.forms.NewEntryForm;
 import com.pms.forms.UpdateEntryForm;
 import com.pms.list.model.SortedListModel;
 import com.pms.service.impl.ApplicationPropsServiceImpl;
+import com.pms.util.ApplicationConstants;
 import com.pms.util.PMSUtility;
 
-public class DualListBoxJPanel extends JPanel {
+public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 
-	/**
-	* 
-	*/
 	private static final long serialVersionUID = 9063448592182885974L;
 
 	private static final Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
-
-	private static final String ADD_BUTTON_LABEL = "ADD CHANNEL >>";
-
-	private static final String REMOVE_BUTTON_LABEL = "<< REMOVE CHANNEL";
-
-	private static final String CONFIRM_BUTTON_LABEL = "CONFIRM FEES FOR SELECTED CHANNELS ";
-
-	private static final String BACK_BUTTON_LABEL = "BACK";
-
-	private static final String DEFAULT_SOURCE_CHOICE_LABEL = "AVAILABLE CHANNELS:";
-
-	private static final String DEFAULT_DEST_CHOICE_LABEL = "SELECTED CHANNELS:";
-
-	private static final String TOTAL_FEES_LABEL = "TOTAL FEES FOR SELECTED CHANNELS:";
 
 	private JLabel sourceLabel;
 
@@ -295,7 +279,7 @@ public class DualListBoxJPanel extends JPanel {
 				EMPTY_INSETS, 0, 0));
 		confirmButton.addActionListener(new ConfirmButtonListener());
 
-		backButton = new JButton(BACK_BUTTON_LABEL);
+		backButton = new JButton(BACK);
 		add(backButton, new GridBagConstraints(2, 5, 1, 2, 0.25, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
 		backButton.addActionListener(new BackButtonListener());

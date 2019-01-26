@@ -10,6 +10,7 @@ public class ChannelDetails implements Comparable<ChannelDetails> {
 	private Integer channelId;
 	private String channelName;
 	private Integer channelPrice;
+	private String channelType;
 
 	public Integer getChannelPrice() {
 		return channelPrice;
@@ -35,6 +36,14 @@ public class ChannelDetails implements Comparable<ChannelDetails> {
 		this.channelName = channelName;
 	}
 
+	public String getChannelType() {
+		return channelType;
+	}
+
+	public void setChannelType(String channelType) {
+		this.channelType = channelType;
+	}
+
 	@Override
 	public int compareTo(ChannelDetails channelDetails) {
 		return this.channelId - channelDetails.getChannelId();
@@ -42,7 +51,7 @@ public class ChannelDetails implements Comparable<ChannelDetails> {
 
 	@Override
 	public String toString() {
-		return channelName + "(" + channelPrice + ")";
+		return channelName + "(" + channelPrice + ")" +"--"+channelType;
 	}
 
 	@Override
