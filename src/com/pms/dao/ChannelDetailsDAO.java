@@ -33,7 +33,7 @@ public class ChannelDetailsDAO implements DBConstants {
 				ChannelDetails channelDetails = new ChannelDetails();
 				channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
 				channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
-				channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+				channelDetails.setChannelPrice(rs.getDouble(CHANNEL_PRICE));
 				channelDetails.setChannelType(rs.getString(CHANNEL_TYPE));
 
 				channelDetailsList.add(channelDetails);
@@ -75,7 +75,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		LOG.info("update sql : " + sql);
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			preparedStatement.setString(1, channelDetails.getChannelName());
-			preparedStatement.setInt(2, channelDetails.getChannelPrice());
+			preparedStatement.setDouble(2, channelDetails.getChannelPrice());
 			preparedStatement.setString(3, channelDetails.getChannelType());
 			preparedStatement.setInt(4, channelDetails.getChannelId());
 
@@ -99,7 +99,7 @@ public class ChannelDetailsDAO implements DBConstants {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			preparedStatement.setInt(1, channelDetails.getChannelId());
 			preparedStatement.setString(2, channelDetails.getChannelName());
-			preparedStatement.setInt(3, channelDetails.getChannelPrice());
+			preparedStatement.setDouble(3, channelDetails.getChannelPrice());
 			preparedStatement.setString(4, channelDetails.getChannelType());
 			success = preparedStatement.executeUpdate();
 			LOG.info("SUCCESSFULLY INSERTED CHANNEL DETAILS INTO TABLE");
@@ -145,7 +145,7 @@ public class ChannelDetailsDAO implements DBConstants {
 					ChannelDetails channelDetails = new ChannelDetails();
 					channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
 					channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
-					channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+					channelDetails.setChannelPrice(rs.getDouble(CHANNEL_PRICE));
 					channelDetails.setChannelType(rs.getString(CHANNEL_TYPE));
 					channelDetailsList.add(channelDetails);
 				}
@@ -176,7 +176,7 @@ public class ChannelDetailsDAO implements DBConstants {
 					ChannelDetails channelDetails = new ChannelDetails();
 					channelDetails.setChannelId(rs.getInt(CHANNEL_ID));
 					channelDetails.setChannelName(rs.getString(CHANNEL_NAME));
-					channelDetails.setChannelPrice(rs.getInt(CHANNEL_PRICE));
+					channelDetails.setChannelPrice(rs.getDouble(CHANNEL_PRICE));
 					channelDetails.setChannelType(rs.getString(CHANNEL_TYPE));
 					channelDetailsList.add(channelDetails);
 				}

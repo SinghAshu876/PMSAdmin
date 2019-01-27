@@ -61,7 +61,7 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 
 	private JButton backButton;
 
-	private int sumOfChannelsSelected = 0;
+	private double sumOfChannelsSelected = 0.0;
 
 	private Object parentClassInstance;
 
@@ -336,16 +336,16 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 		}
 	}
 
-	public int addFees(List<ChannelDetails> channelList) {
+	public double addFees(List<ChannelDetails> channelList) {
 		for (ChannelDetails channelDetails : channelList) {
-			sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice();
+			sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice().doubleValue();
 		}
 		return sumOfChannelsSelected;
 	}
 
-	public int subtractFees(List<ChannelDetails> channelList) {
+	public double subtractFees(List<ChannelDetails> channelList) {
 		for (ChannelDetails channelDetails : channelList) {
-			sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice();
+			sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice().doubleValue();
 		}
 		return sumOfChannelsSelected;
 	}

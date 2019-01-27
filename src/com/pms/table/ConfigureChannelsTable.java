@@ -24,8 +24,8 @@ import javax.swing.text.AbstractDocument;
 
 import org.apache.log4j.Logger;
 
+import com.pms.custom.components.PMSJComboBox;
 import com.pms.custom.components.PMSJTextField;
-import com.pms.document.filters.NumberTextFieldDocumentFilter;
 import com.pms.document.filters.UpperCaseWithLimitDocumentFilter;
 import com.pms.entity.ChannelDetails;
 import com.pms.service.impl.UserServiceImpl;
@@ -54,7 +54,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	private JButton updateButton ;
 	private JButton deleteButton ;
 	private String channelTypeComboBoxValue ;
-	private JComboBox<String> channelTypeComboBox;
+	private PMSJComboBox<String> channelTypeComboBox;
 
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
@@ -104,17 +104,17 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		channelIdText.setEditable(false);
 		configureChannelsFrame.add(channelIdText);
 
-		channelNameText = new PMSJTextField();
+		channelNameText = new PMSJTextField(20);
 		channelNameText.setBounds(xCordinateOfTextBox, 440, componentWidth, COMPONENT_HEIGHT);
 		((AbstractDocument) channelNameText.getDocument()).setDocumentFilter(new UpperCaseWithLimitDocumentFilter(30));
 		configureChannelsFrame.add(channelNameText);
 
-		channelPriceText = new PMSJTextField();
+		channelPriceText = new PMSJTextField(20);
 		channelPriceText.setBounds(xCordinateOfTextBox, 480, componentWidth, COMPONENT_HEIGHT);
-		((AbstractDocument) channelPriceText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
+		//((AbstractDocument) channelPriceText.getDocument()).setDocumentFilter(new DecimalTextFieldDocumentFilter(5));
 		configureChannelsFrame.add(channelPriceText);
 		
-		channelTypeComboBox = new JComboBox<String>();
+		channelTypeComboBox = new PMSJComboBox<String>();
 		channelTypeComboBox.setEditable(false);
 		String[] channelType = CHANNEL_TYPE;
 		for (int i = 0; i < channelType.length; i++) {
@@ -218,11 +218,14 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			if (channelPriceText.getText() == null || channelPriceText.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "CHANNEL PRICE CANNOT BE BLANK");
 				return;
-
+			}
+			if(!isValidAmount(channelPriceText.getText())) {
+				JOptionPane.showMessageDialog(null, "PLEASE ENTER VALID PRICE");
+				return;
 			}
 
 			String chnlName = channelNameText.getText();
-			int chnlPrice = Integer.valueOf(channelPriceText.getText());
+			double chnlPrice = Double.valueOf(channelPriceText.getText());
 
 			ChannelDetails channelDetails = new ChannelDetails();
 			channelDetails.setChannelId(channelId);
@@ -241,6 +244,8 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 			}
 		}
 
+		
+
 	}
 
 	private class UpdateButtonHandler implements ActionListener {
@@ -257,10 +262,15 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 				return;
 
 			}
+			
+			if(!isValidAmount(channelPriceText.getText())) {
+				JOptionPane.showMessageDialog(null, "PLEASE ENTER VALID PRICE");
+				return;
+			}
 
 			int channelId = Integer.valueOf(channelIdText.getText());
 			String chnlName = channelNameText.getText();
-			int chnlPrice = Integer.valueOf(channelPriceText.getText());
+			double chnlPrice = Double.valueOf(channelPriceText.getText());
 
 			ChannelDetails channelDetails = new ChannelDetails();
 			channelDetails.setChannelId(channelId);
@@ -314,13 +324,27 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		List<ChannelDetails> updateChannelDetails = findAllChannels();
 		ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
 		table.setModel(model);
-		channelNameText.setText(ApplicationConstants.EMPTY_STRING);
-		channelPriceText.setText(ApplicationConstants.EMPTY_STRING);
-		channelIdText.setText(ApplicationConstants.EMPTY_STRING);
+		channelNameText.setText(EMPTY_STRING);
+		channelPriceText.setText(EMPTY_STRING);
+		channelIdText.setText(EMPTY_STRING);
+		channelTypeComboBox.setSelectedItem(CHANNEL_TYPE[0]);
 		addButton.setEnabled(true);
 		updateButton.setEnabled(false);
 		deleteButton.setEnabled(false);
 
+	}
+	
+	private boolean isValidAmount(String text) {
+		boolean isValidAmount = true;
+		try {
+			 Double.valueOf(text);
+		}
+		catch (NumberFormatException e) {
+			isValidAmount =  false;
+		}
+		return isValidAmount;
+		
+		
 	}
 
 	private int addChannel(ChannelDetails channelDetails) {

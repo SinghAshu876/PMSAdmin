@@ -230,12 +230,12 @@ public class PMSUtility implements ApplicationConstants {
 	 * }
 	 */
 
-	public static int calculateGST(int gstRate, int amount) {
+	public static int calculateGST(int gstRate, double amount) {
 		double gstCalculatedRate = 0;
 		LOG.info("calculate GST for " + amount + " rate " + gstRate);
 		gstCalculatedRate = amount + ((amount * gstRate) / 100.0);
 		LOG.info("calculated GST for " + gstCalculatedRate);
-		int roundedToNearestInteger = (int) Math.round(gstCalculatedRate);
+		int roundedToNearestInteger = (int) Math.ceil(gstCalculatedRate);
 		LOG.info("roundedToNearestInteger  " + roundedToNearestInteger);
 		return roundedToNearestInteger;
 	}

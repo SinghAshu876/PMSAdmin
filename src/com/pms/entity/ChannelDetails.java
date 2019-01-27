@@ -9,14 +9,14 @@ public class ChannelDetails implements Comparable<ChannelDetails> {
 
 	private Integer channelId;
 	private String channelName;
-	private Integer channelPrice;
+	private Double channelPrice;
 	private String channelType;
 
-	public Integer getChannelPrice() {
+	public Double getChannelPrice() {
 		return channelPrice;
 	}
 
-	public void setChannelPrice(Integer channelPrice) {
+	public void setChannelPrice(Double channelPrice) {
 		this.channelPrice = channelPrice;
 	}
 
