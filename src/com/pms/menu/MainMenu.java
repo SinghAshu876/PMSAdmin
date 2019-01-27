@@ -21,7 +21,7 @@ import com.pms.forms.SearchForm;
 import com.pms.forms.UpdateEntryForm;
 import com.pms.service.impl.ApplicationPropsServiceImpl;
 import com.pms.table.ArchivedUsersTable;
-import com.pms.table.ConfigureChannelsTable;
+import com.pms.table.AlaCarteChannelsTable;
 import com.pms.table.DisconnectedUsersTable;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
@@ -37,7 +37,7 @@ public class MainMenu  implements ApplicationConstants {
 	private  Logger LOG = Logger.getLogger(getClass());
 	
 	private int xCordinateOfLabel = 550;
-	private int componentWidth = 200;
+	private int componentWidth = 240;
 	private Integer yValue = 50;
 	private ApplicationPropsServiceImpl appProp = new ApplicationPropsServiceImpl();
 
@@ -124,7 +124,7 @@ public class MainMenu  implements ApplicationConstants {
 		deletedUsers.addActionListener(new ArchivedUsersButtonHandler());
 		panel.add(deletedUsers);
 		
-		JButton configureChannels = new JButton("CONFIGURE CHANNELS");
+		JButton configureChannels = new JButton("CONFIGURE ALA-CARTE CHANNELS");
 		configureChannels.setBounds(xCordinateOfLabel, getIncrementedValue(yValue, true), componentWidth, COMPONENT_HEIGHT);
 		configureChannels.addActionListener(new ConfigureChannelsButtonHandler());
 		panel.add(configureChannels);
@@ -166,7 +166,7 @@ public class MainMenu  implements ApplicationConstants {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Toolkit.getDefaultToolkit().beep();
-			new ConfigureChannelsTable().init(mainMenuFrame);
+			new AlaCarteChannelsTable().init(mainMenuFrame);
 			
 		}
 	}

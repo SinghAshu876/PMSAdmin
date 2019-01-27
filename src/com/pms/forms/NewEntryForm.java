@@ -209,7 +209,7 @@ public class NewEntryForm implements ApplicationConstants {
 		panel.add(fee);
 
 		feeText = new PMSJTextField(20);
-		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
+		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
         /*		feeText.addKeyListener(new KeyListener() {
 
 			@Override

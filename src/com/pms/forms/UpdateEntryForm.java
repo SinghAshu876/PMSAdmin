@@ -266,7 +266,7 @@ public class UpdateEntryForm implements ApplicationConstants {
 		panel.add(fee);
 
 		feeText = new PMSJTextField(20);
-		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), 60, COMPONENT_HEIGHT);
+		feeText.setBounds(xCordinateOfTextBox, getIncrementedValue(yValue, false), componentWidth, COMPONENT_HEIGHT);
 		feeText.setText(String.valueOf(user.getFeesHistory().getFees()));
 		((AbstractDocument) feeText.getDocument()).setDocumentFilter(new NumberTextFieldDocumentFilter(4));
 		/*feeText.addKeyListener(new KeyListener() {

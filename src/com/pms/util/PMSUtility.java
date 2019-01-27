@@ -1,5 +1,6 @@
 package com.pms.util;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -258,6 +259,11 @@ public class PMSUtility implements ApplicationConstants {
 		Date lastDateOfPreviousMonth = aCalendar.getTime();
 		LOG.info("getPreviousMonthLastDate : EXIT" + lastDateOfPreviousMonth);
 		return lastDateOfPreviousMonth;
+	}
+	
+	public static String getDecimalFormat(double number) {
+		 DecimalFormat df = new DecimalFormat("#0.00");
+	     return (df.format(number));
 	}
 
 	public static Date getCurrentMonthFirstDate(Date date) {

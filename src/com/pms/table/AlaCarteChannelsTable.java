@@ -29,7 +29,7 @@ import com.pms.custom.components.PMSJTextField;
 import com.pms.document.filters.UpperCaseWithLimitDocumentFilter;
 import com.pms.entity.ChannelDetails;
 import com.pms.service.impl.UserServiceImpl;
-import com.pms.table.model.ChannelDetailsTableModel;
+import com.pms.table.model.AlaCarteChannelDetailsTableModel;
 import com.pms.util.ApplicationConstants;
 import com.pms.util.Container;
 
@@ -38,7 +38,7 @@ import com.pms.util.Container;
  * @author ashutosh.tct@gmail.com
  *
  */
-public class ConfigureChannelsTable implements ApplicationConstants {
+public class AlaCarteChannelsTable implements ApplicationConstants {
 
 	private Logger LOG = Logger.getLogger(getClass());
 
@@ -59,8 +59,8 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 	public void init(JFrame parentFrame) {
 		parentFrame.setVisible(false);
 		List<ChannelDetails> channelDetailsList = findAllChannels();
-		ChannelDetailsTableModel model = new ChannelDetailsTableModel(channelDetailsList);
-		prepareTable("CONFIGURE CHANNEL", model);
+		AlaCarteChannelDetailsTableModel model = new AlaCarteChannelDetailsTableModel(channelDetailsList);
+		prepareTable("CONFIGURE ALA-CARTE CHANNELS", model);
 	}
 
 	public void prepareTable(String name, AbstractTableModel model) {
@@ -155,7 +155,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 		backButton.setBounds(400, 520, componentWidth, COMPONENT_HEIGHT);
 		configureChannelsFrame.add(backButton);
 		backButton.addActionListener(new BackButtonHandler());
-		Container.frameContainer.put("ARCHIVED-USERS-FRAME", configureChannelsFrame);
+		Container.frameContainer.put("CONFIGURE-ALA-CARTE-CHANNELS-FRAME", configureChannelsFrame);
 	}
 
 	private class OnClickMouseListener implements MouseListener {
@@ -322,7 +322,7 @@ public class ConfigureChannelsTable implements ApplicationConstants {
 
 	private void refreshTable() {
 		List<ChannelDetails> updateChannelDetails = findAllChannels();
-		ChannelDetailsTableModel model = new ChannelDetailsTableModel(updateChannelDetails);
+		AlaCarteChannelDetailsTableModel model = new AlaCarteChannelDetailsTableModel(updateChannelDetails);
 		table.setModel(model);
 		channelNameText.setText(EMPTY_STRING);
 		channelPriceText.setText(EMPTY_STRING);

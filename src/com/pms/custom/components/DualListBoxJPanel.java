@@ -61,7 +61,7 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 
 	private JButton backButton;
 
-	private double sumOfChannelsSelected = 0.0;
+	private double sumOfChannelsSelected ;
 
 	private Object parentClassInstance;
 
@@ -81,13 +81,14 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 
 	public DualListBoxJPanel(List<ChannelDetails> sourceElements, List<ChannelDetails> destinationElements,
 			Object parentClassInstance) {
+		this.sumOfChannelsSelected = Double.valueOf(appProp.fetchProperty(NCF));
 		this.parentClassInstance = parentClassInstance;
 		initScreen();
 		addSourceElements(sourceElements);
 		if (destinationElements != null) {
 			addDestinationElements(destinationElements);
 			addFees(destinationElements);
-			feeText.setText(String.valueOf(sumOfChannelsSelected));
+			feeText.setText(PMSUtility.getDecimalFormat(sumOfChannelsSelected));
 		}
 
 	}
@@ -240,7 +241,7 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 		setLayout(new GridBagLayout());
 		setBackground(Color.CYAN);
 
-		sourceLabel = new JLabel(DEFAULT_SOURCE_CHOICE_LABEL);
+		sourceLabel = new JLabel(DEFAULT_ALA_CARTE_CHNNLS);
 		sourceListModel = new SortedListModel();
 		sourceList = new JList<ChannelDetails>(sourceListModel);
 		add(sourceLabel, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
@@ -270,7 +271,7 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 				GridBagConstraints.NONE, EMPTY_INSETS, 0, 0));
 		feeText = new PMSJTextField(15);
 		feeText.setEditable(false);
-		feeText.setText(String.valueOf(sumOfChannelsSelected));
+		feeText.setText(PMSUtility.getDecimalFormat(sumOfChannelsSelected));
 		add(feeText, new GridBagConstraints(2, 3, 1, 2, 0.25, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE,
 				EMPTY_INSETS, 0, 0));
 
@@ -291,7 +292,7 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 		public void actionPerformed(ActionEvent e) {
 			configureFeeFrame.setVisible(false);
 			getParentFrame().setVisible(true);
-			int gstRate = Integer.valueOf(appProp.fetchProperty("GST"));
+			int gstRate = Integer.valueOf(appProp.fetchProperty(GST));
 			int gstCalculatedAmount = PMSUtility.calculateGST(gstRate, sumOfChannelsSelected);
 			if (parentClassInstance instanceof NewEntryForm) {
 				NewEntryForm newEntryForm = ((NewEntryForm) parentClassInstance);

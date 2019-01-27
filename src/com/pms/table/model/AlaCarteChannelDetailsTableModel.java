@@ -6,13 +6,14 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.pms.entity.ChannelDetails;
+import com.pms.util.PMSUtility;
 
 /**
  * 
  * @author ashutosh.tct@gmail.com
  * 
  */
-public class ChannelDetailsTableModel extends AbstractTableModel {
+public class AlaCarteChannelDetailsTableModel extends AbstractTableModel {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 		return COLUMN_TYPES[columnIndex];
 	}
 
-	public ChannelDetailsTableModel(List<ChannelDetails> channelDetailsList) {
+	public AlaCarteChannelDetailsTableModel(List<ChannelDetails> channelDetailsList) {
 		this.channelDetailsList = new ArrayList<ChannelDetails>(channelDetailsList);
 	}
 
@@ -70,7 +71,7 @@ public class ChannelDetailsTableModel extends AbstractTableModel {
 			value = channelDetails.getChannelName();
 			break;
 		case 2:
-			value = channelDetails.getChannelPrice();
+			value = PMSUtility.getDecimalFormat(channelDetails.getChannelPrice());
 			break;
 		case 3:
 			value = channelDetails.getChannelType();

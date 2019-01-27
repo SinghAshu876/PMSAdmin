@@ -1,5 +1,7 @@
 package com.pms.entity;
 
+import com.pms.util.PMSUtility;
+
 /**
  * 
  * @author ashutosh.tct@gmail.com
@@ -51,7 +53,7 @@ public class ChannelDetails implements Comparable<ChannelDetails> {
 
 	@Override
 	public String toString() {
-		return channelName + "(" + channelPrice + ")" +"--"+channelType;
+		return channelName + "--[" + PMSUtility.getDecimalFormat(channelPrice) + "]--"+channelType;
 	}
 
 	@Override
