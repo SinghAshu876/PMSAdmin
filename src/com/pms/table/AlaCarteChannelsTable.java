@@ -231,7 +231,7 @@ public class AlaCarteChannelsTable implements ApplicationConstants {
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
-			channelDetails.setChannelType(channelTypeComboBoxValue == null ?SD :channelTypeComboBoxValue);
+			channelDetails.setChannelType((channelTypeComboBoxValue == null || channelTypeComboBoxValue.equals(EMPTY_STRING)) ?SD :channelTypeComboBoxValue);
 
 			int response = addChannel(channelDetails);
 			LOG.info("response " + response);
@@ -276,7 +276,7 @@ public class AlaCarteChannelsTable implements ApplicationConstants {
 			channelDetails.setChannelId(channelId);
 			channelDetails.setChannelName(chnlName);
 			channelDetails.setChannelPrice(chnlPrice);
-			channelDetails.setChannelType(channelTypeComboBoxValue == null ?SD :channelTypeComboBoxValue);
+			channelDetails.setChannelType((channelTypeComboBoxValue == null || channelTypeComboBoxValue.equals(EMPTY_STRING)) ?SD :channelTypeComboBoxValue);
 			int response = updateChannel(channelDetails);
 			LOG.info("response " + response);
 			if (response == -1) {

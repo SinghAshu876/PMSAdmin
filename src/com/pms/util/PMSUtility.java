@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 
+import com.pms.entity.ChannelDetails;
 import com.pms.entity.User;
 import com.pms.enums.util.Month;
 import com.pms.enums.util.StaticCodes;
@@ -231,7 +232,34 @@ public class PMSUtility implements ApplicationConstants {
 	 * }
 	 */
 
-	public static int calculateGST(int gstRate, double amount) {
+	public static int calculateFinalAmount(int gstRate, double amount, ArrayList<ChannelDetails> selectedChannelsList) {
+		LOG.info("intial amount " + amount);
+		int sdChannelsCount = 0;
+		int hdChannelsCount = 0;
+		int weightedCount = 0;
+		for (ChannelDetails channelDetails : selectedChannelsList) {
+			if (channelDetails.getChannelType().equals(SD)) {
+				sdChannelsCount++;
+				weightedCount = weightedCount + 1;
+			} else if (channelDetails.getChannelType().equals(HD)) {
+				hdChannelsCount++;
+				weightedCount = weightedCount + 2;				
+			}
+		}
+
+		LOG.info("sdChannelsCount " + sdChannelsCount);
+		LOG.info("hdChannelsCount " + hdChannelsCount);
+		LOG.info("weightedCount " + weightedCount);
+		
+		for (int i = 1; i <= weightedCount; i++) {
+			if (i % 25 == 1) {
+				amount = amount + 20;
+			}
+		}
+		LOG.info("amount " + amount);
+
+
+
 		double gstCalculatedRate = 0;
 		LOG.info("calculate GST for " + amount + " rate " + gstRate);
 		gstCalculatedRate = amount + ((amount * gstRate) / 100.0);
@@ -241,14 +269,6 @@ public class PMSUtility implements ApplicationConstants {
 		return roundedToNearestInteger;
 	}
 
-	/*public static void main(String args[]) {
-		double gstCalculatedRate = 0;
-		int amount = 37;
-		int gstRate = 18;
-		gstCalculatedRate = amount + ((amount * gstRate) / 100.0);
-		int a = (int) Math.round(gstCalculatedRate);
-		System.out.println(a);
-	}*/
 
 	public static Date getPreviousMonthLastDate(Date date) {
 		LOG.info("getPreviousMonthLastDate : ENTRY" + date);

@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -290,18 +291,19 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 	public class ConfirmButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			 ArrayList<ChannelDetails> selectedChannelsList = destListModel.getAsList();
 			configureFeeFrame.setVisible(false);
 			getParentFrame().setVisible(true);
 			int gstRate = Integer.valueOf(appProp.fetchProperty(GST));
-			int gstCalculatedAmount = PMSUtility.calculateGST(gstRate, sumOfChannelsSelected);
+			int gstCalculatedAmount = PMSUtility.calculateFinalAmount(gstRate, sumOfChannelsSelected ,selectedChannelsList);
 			if (parentClassInstance instanceof NewEntryForm) {
 				NewEntryForm newEntryForm = ((NewEntryForm) parentClassInstance);
 				newEntryForm.getFeeText().setText(String.valueOf(gstCalculatedAmount));
-				newEntryForm.setSelectedChannels(destListModel.getAsList());
+				newEntryForm.setSelectedChannels(selectedChannelsList);
 			} else if (parentClassInstance instanceof UpdateEntryForm) {
 				UpdateEntryForm updateEntryForm = ((UpdateEntryForm) parentClassInstance);
 				updateEntryForm.getFeeText().setText(String.valueOf(gstCalculatedAmount));
-				updateEntryForm.setSelectedChannels(destListModel.getAsList());
+				updateEntryForm.setSelectedChannels(selectedChannelsList);
 			}
 
 		}
