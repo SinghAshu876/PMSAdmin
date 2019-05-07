@@ -341,14 +341,14 @@ public class DualListBoxJPanel extends JPanel implements ApplicationConstants {
 
 	public double addFees(List<ChannelDetails> channelList) {
 		for (ChannelDetails channelDetails : channelList) {
-			sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice().doubleValue();
+			sumOfChannelsSelected = sumOfChannelsSelected + channelDetails.getChannelPrice();
 		}
 		return sumOfChannelsSelected;
 	}
 
 	public double subtractFees(List<ChannelDetails> channelList) {
 		for (ChannelDetails channelDetails : channelList) {
-			sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice().doubleValue();
+			sumOfChannelsSelected = sumOfChannelsSelected - channelDetails.getChannelPrice();
 		}
 		return sumOfChannelsSelected;
 	}

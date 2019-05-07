@@ -29,19 +29,19 @@ public class UserChannelDetailsDAO implements DBConstants {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			int i = 0;
 			List<ChannelDetails> channelDetailsList = user.getChannelsList();
-
-			for (ChannelDetails channelDetails : channelDetailsList) {
-				preparedStatement.setString(1, UUID.randomUUID().toString());
-				preparedStatement.setInt(2, user.getId());
-				preparedStatement.setInt(3, channelDetails.getChannelId());
-				preparedStatement.addBatch();
-				i++;
-				if (i % BATCH_SIZE == 0) {
-					preparedStatement.executeBatch();
+			if (channelDetailsList != null && channelDetailsList.size() > 0) {
+				for (ChannelDetails channelDetails : channelDetailsList) {
+					preparedStatement.setString(1, UUID.randomUUID().toString());
+					preparedStatement.setInt(2, user.getId());
+					preparedStatement.setInt(3, channelDetails.getChannelId());
+					preparedStatement.addBatch();
+					i++;
+					if (i % BATCH_SIZE == 0) {
+						preparedStatement.executeBatch();
+					}
 				}
+				preparedStatement.executeBatch();
 			}
-			preparedStatement.executeBatch();
-
 			LOG.info("SUCCESSFULLY INSERTED USER CHANNEL DETAILS DATA INTO TABLE");
 		} catch (SQLException e) {
 			success = 0;
