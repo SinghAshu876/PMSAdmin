@@ -3,6 +3,7 @@ package com.pms.util;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,11 +56,12 @@ public class PMSUtility implements ApplicationConstants {
 	}
 
 	public static Integer initialiseCurrentYear() {
-		Integer year = null;
-		SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
-		String formattedDate = sdf.format(new Date());
-		year = Integer.valueOf(formattedDate);
-		return year;
+		//Integer year = null;
+		//SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
+		//String formattedDate = sdf.format(new Date());
+		//year = Integer.valueOf(formattedDate);
+		//return year;
+		return LocalDate.now().getYear();
 
 	}
 
@@ -69,15 +71,26 @@ public class PMSUtility implements ApplicationConstants {
 		}
 		return new java.sql.Date(date.getTime());
 	}
+	
+	public static void main(String args[]) {
+		Date d = new Date();
+		System.out.println(getYearString(d));
+	}
 
 	public static Integer getYear(Date d) {
-		SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
-		return Integer.valueOf(sdf.format(d));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d); 
+		//SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
+		//return Integer.valueOf(sdf.format(d));
+		return Integer.valueOf(cal.get(Calendar.YEAR));
 	}
 
 	public static String getYearString(Date d) {
-		SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
-		return sdf.format(d);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d); 
+		//SimpleDateFormat sdf = new SimpleDateFormat(YEAR_PATTERN);
+		//return sdf.format(d);
+		return String.valueOf(cal.get(Calendar.YEAR));
 	}
 
 	public static String getMonth(Date d) {
