@@ -22,7 +22,7 @@ public class Test {
 	public static void main(String args[]){
 		System.setProperty("ashutosh", "kumar");
 		//insertIntoFeesHistoryTable();
-		System.out.println(System.getProperty("ashutosh"));
+		System.out.println(System.getProperty("ashu"));
 		
 		Connection connection = JDBCConnection.getConnection();
 		for(int i =2;i<1000;i++){
