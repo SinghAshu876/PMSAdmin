@@ -1,11 +1,12 @@
 package com.pms.service.impl;
 
+import static com.pms.util.PMSUtility.createDateObject;
 import static com.pms.util.PMSUtility.getMonth;
 import static com.pms.util.PMSUtility.getMonthSequence;
 import static com.pms.util.PMSUtility.getYear;
-import static com.pms.util.PMSUtility.createDateObject;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -191,16 +192,13 @@ public class FeesServiceImpl implements FeesService {
 	 */
 	@Override
 	public String calculateRecomputedAmount(User user, String month, String year) {
-		String bckDues = null;
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Integer.valueOf(year), getMonthSequence(month), 1);
-		if (bckDues == null) {
-			bckDues = getBackDues(user.getId());
-			int skippedMonthValue = getSkippedMonthBackDues(user.getId(), getYear(calendar.getTime()), getMonth(calendar.getTime()));
-			int totalRevenue = skippedMonthValue + Integer.valueOf(bckDues);
-			bckDues = String.valueOf(totalRevenue);
-
-		}
+		LocalDate date = LocalDate.of(Integer.valueOf(year), Month.valueOf(month), 1);
+		String bckDues = getBackDues(user.getId());
+		int skippedMonthValue = getSkippedMonthBackDues(user.getId(), date.getYear(), date.getMonth().toString());
+		LOG.info("skippedMonthValue " + skippedMonthValue);
+		int totalRevenue = skippedMonthValue  + Integer.valueOf(bckDues);
+		bckDues = String.valueOf(totalRevenue);
+		LOG.info("bckDues " + bckDues);
 		return bckDues;
 	}
 

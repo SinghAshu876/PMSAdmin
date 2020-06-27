@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -94,8 +95,9 @@ public class PMSUtility implements ApplicationConstants {
 	}
 
 	public static String getMonth(Date d) {
-		SimpleDateFormat sdf = new SimpleDateFormat(MONTH_PATTERN);
-		return sdf.format(d).toUpperCase();
+		LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		//SimpleDateFormat sdf = new SimpleDateFormat(MONTH_PATTERN);
+		return localDate.getMonth().toString();
 	}
 
 	public static Date getPreviousMonth(Date d) {

@@ -4,7 +4,6 @@ import static com.pms.util.PMSUtility.convertToSqlDate;
 import static com.pms.util.PMSUtility.getMonth;
 import static com.pms.util.PMSUtility.getMonthYearValue;
 import static com.pms.util.PMSUtility.getYear;
-import static com.pms.util.PMSUtility.getYearString;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,7 +40,6 @@ import com.pms.document.filters.NumberTextFieldDocumentFilter;
 import com.pms.entity.AllFeesDetails;
 import com.pms.entity.FeesHistory;
 import com.pms.entity.User;
-import com.pms.enums.util.StaticCodes;
 import com.pms.service.impl.FeesServiceImpl;
 import com.pms.service.impl.UserServiceImpl;
 import com.pms.table.FeesPrintTable;
@@ -394,20 +392,19 @@ public class MonthlyPaidForm implements ApplicationConstants {
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (StaticCodes.codeMap.keySet().contains(arg0.getKeyChar())) {
+				if (arg0.getKeyCode() == 8) {
+					discountText.setText(zeroFees);
+					payableTemp = EMPTY_STRING;
+					String fee1 = feesServiceImpl.calculateRecomputedAmount(user, monthLabelText.getText(), yearLabelText.getText());
+					feesPayableText.setText(fee1);
+
+				}
+				else {
 					payableTemp = payableTemp + arg0.getKeyChar();
 					String fee = feesServiceImpl.calculateRecomputedAmount(user, monthLabelText.getText(), yearLabelText.getText());
 					Integer integerFee = Integer.valueOf(fee);
 					feesPayableText.setText(String.valueOf(integerFee - Integer.valueOf(payableTemp)));
-
-				}
-				if (arg0.getKeyCode() == 8 && !payableTemp.isEmpty()) {
-					discountText.setText(zeroFees);
-					payableTemp = EMPTY_STRING;
-					String fee = feesServiceImpl.calculateRecomputedAmount(user, monthLabelText.getText(), yearLabelText.getText());
-					feesPayableText.setText(fee);
-
-				}
+				}		
 
 			}
 
