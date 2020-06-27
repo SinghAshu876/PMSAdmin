@@ -32,7 +32,7 @@ public interface ApplicationConstants {
 	String HD						= "HD";
 	String SD						= "SD";
 	
-	String [] ENV                   = {EMPTY_STRING,ALKA,BASTI/*,DEV,DEV_BASTI*/};
+	String [] ENV                   = {EMPTY_STRING,ALKA,BASTI,DEV,DEV_BASTI};
  	String [] CHANNEL_TYPE          = {EMPTY_STRING,HD,SD};
 
 	String PDF_SETTOP_BOX_HEADER [] 		= {"ID","NAME","CAFNO","SMART CARD NO","MOBILE", "QTR", "STR"};

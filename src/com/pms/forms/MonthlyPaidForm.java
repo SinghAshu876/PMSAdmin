@@ -512,7 +512,7 @@ public class MonthlyPaidForm implements ApplicationConstants {
 					}
 
 				}
-				if (getMonth(today).equals(monthLabelText.getText()) && getYearString(today).equals(yearLabelText.getText())) {
+				if (getMonth(today).equals(getMonth(previousMonthDate)) && getYear(today).equals(getYear(previousMonthDate))) {
 					postingDatePicker.setDate(today);
 				} else if (previousMonthString.equalsIgnoreCase(userConnectionMonth) && getYear(previousMonthDate).equals(Integer.valueOf(userConnectionYear))) {
 					postingDatePicker.setDate(user.getDoc());
