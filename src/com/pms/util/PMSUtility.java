@@ -95,8 +95,17 @@ public class PMSUtility implements ApplicationConstants {
 	}
 
 	public static String getMonth(Date d) {
-		LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		//SimpleDateFormat sdf = new SimpleDateFormat(MONTH_PATTERN);
+		LocalDate localDate = null;
+		if(d instanceof java.sql.Date) {
+			LOG.info("instanceof java.sql.Date");
+			java.util.Date utilDate = new java.util.Date(d.getTime());
+			localDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		}
+		else if(d instanceof java.util.Date) {
+			LOG.info("instanceof java.util.Date");
+			localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		}
+		
 		return localDate.getMonth().toString();
 	}
 

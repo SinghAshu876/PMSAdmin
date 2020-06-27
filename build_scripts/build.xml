@@ -4,20 +4,20 @@
     <!--ANT 1.7 is required                                        -->
     <!--define folder properties-->
     <property name="dir.buildfile" value="."/>
-    <property name="dir.workspace" value="C:/aks/JAVA_WS"/>
+    <property name="dir.workspace" value="C:/AKS/JAVA_WS"/>
     <property name="dir.jarfile" value="${dir.buildfile}"/>
     <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/PMS.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="${dir.jarfile}/PMSAdmin.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="com.pms.menu.StartUp"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="C:/Users/a.cr.kumar.singh/git/PMSAdmin/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/a.cr.kumar.singh/git/PMSAdmin/lib/hsqldb.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/a.cr.kumar.singh/git/PMSAdmin/lib/itextpdf-5.4.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/a.cr.kumar.singh/git/PMSAdmin/lib/javax.mail-1.5.1.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/a.cr.kumar.singh/git/PMSAdmin/lib/log4j-1.2.17.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="C:/Users/a.cr.kumar.singh/git/PMSAdmin/lib/swingx-0.9.4.jar"/>
+            <fileset dir="C:/Users/alka/git/PMSAdmin/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/alka/git/PMSAdmin/lib/hsqldb.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/alka/git/PMSAdmin/lib/itextpdf-5.4.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/alka/git/PMSAdmin/lib/javax.mail-1.5.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/alka/git/PMSAdmin/lib/log4j-1.2.17.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/alka/git/PMSAdmin/lib/swingx-0.9.4.jar"/>
         </jar>
     </target>
 </project>
